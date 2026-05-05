@@ -31,7 +31,7 @@ def analyze_dataframe(df):
 
 def check_duplicates(df):
 
-    key_cols = ["fl_date", "op_unique_carrier", "op_carrier_fl_num"]
+    key_cols = ["fl_date", "op_unique_carrier", "op_carrier_fl_num", "origin_city_name", "dest_city_name"]
 
     # maschera duplicati (tutte le occorrenze)
     duplicates_mask = df.duplicated(subset=key_cols, keep=False)
