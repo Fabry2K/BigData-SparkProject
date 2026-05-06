@@ -8,5 +8,4 @@ Pertanto la chiave multipla deve essere composta da ["fl_date", "op_unique_carri
 2-Restrizione del dataset
 
 2.1- Dataset finale per l'analisi 3.1:
-fl_date, month
-, op_unique_carrier, op_carrier_fl_num, origin, origin_city_name, dest, dest_city_name, dep_delay, arr_delay, cancelled, cancellation_code, distance, fl_date, month, day_of_month
+fl_date, month, op_unique_carrier, op_carrier_fl_num, origin, origin_city_name, dest, dest_city_name, dep_delay, arr_delay, cancelled, cancellation_code, distance, fl_date, month, day_of_month
