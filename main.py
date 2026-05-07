@@ -4,7 +4,7 @@ import spark_analysis
 from pathlib import Path
 
 original_file = "files/flight_data_2024.csv"
-file_analysis_3_1 = "files/flight_data_2024_analisi_3_1.csv"
+file_analysis_3_1 = "files/analisi_3_1.csv"
 
 # Analisi 3.1: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset
 
@@ -42,7 +42,7 @@ if not Path(file_analysis_3_1).exists():
     # analysis.analyze_dataframe(df_analisi)
     # print(df_analisi.head(30))
 
-    df.to_csv(file_analysis_3_1, index=False)
+    df_analisi.to_csv(file_analysis_3_1, index=False)
     print("file csv per analisi 3.1 creato correttamente")
 
 # Analisi 3.1 con SPARK CORE: LOCALE
