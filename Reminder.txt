@@ -1,5 +1,5 @@
 1-CHECK DUPLICATI
-Inizialmente abbiamo provato scegliendo come chiave multipla ["fl_date", "op_unique_carrier", "op_carrier_fl_num"]. Come risultato si avevano 2268691 righe duplicati.
+Inizialmente abbiamo provato scegliendo come chiave multipla ["fl_date", "op_unique_carrier", "op_carrier_fl_num"]. Come risultato si avevano 2268691 righe duplicate.
 Studiando il dataset con Datablist abbiamo notato che i record rappresentano SEGMENTI di volo, quindi se un volo prevede uno scalo, allora si avranno due record, uno inerente al primo
 tratto e uno al secondo. (gli attributi "fl_date", "op_unique_carrier", "op_carrier_fl_num" sono gli stessi per ogni tratta)
 Pertanto la chiave multipla deve essere composta da ["fl_date", "op_unique_carrier", "op_carrier_fl_num", "origin_city_name", "dest_city_name"]

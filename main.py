@@ -2,6 +2,7 @@ import pandas as pd
 import analysis
 import spark_analysis
 from pathlib import Path
+import utils
 
 original_file = "files/flight_data_2024.csv"
 file_analysis_3_1 = "files/analisi_3_1.csv"
@@ -44,6 +45,9 @@ if not Path(file_analysis_3_1).exists():
 
     df_analisi.to_csv(file_analysis_3_1, index=False)
     print("file csv per analisi 3.1 creato correttamente")
+
+    # Creazione dei dataset di dimensione 1/4, 1/2, 2x, 4x
+    utils.generate_scaled_datasets(file_analysis_3_1)
 
 # Analisi 3.1 con SPARK CORE: LOCALE
 spark_analysis.local_analysis(file_analysis_3_1)
