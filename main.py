@@ -7,9 +7,12 @@ import utils
 original_file = "files/flight_data_2024.csv"
 file_analysis_3_1 = "files/analisi_3_1.csv"
 
+# cancella il contenuto del file di log
+open("output/log.txt", "w").close()
+
 # Analisi 3.1: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset
 
-# se non essite il file per l'analisi 3.1, allora crealo a partire dal file originale
+# se non esiste il file per l'analisi 3.1, allora crealo a partire dal file originale
 if not Path(file_analysis_3_1).exists():
 
     print("file per analisi 3.1 non presente, si procede con la creazione")

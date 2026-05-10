@@ -2,6 +2,26 @@ import pandas as pd
 from pathlib import Path
 
 
+def append_to_log(title, content, logfile="output/log.txt"):
+
+    Path("output").mkdir(exist_ok=True)
+
+    with open(logfile, "a", encoding="utf-8") as f:
+
+        f.write("\n")
+        f.write("=" * 80)
+        f.write("\n")
+
+        f.write(title)
+
+        f.write("\n")
+        f.write("=" * 80)
+        f.write("\n")
+
+        f.write(content)
+
+        f.write("\n")
+
 def generate_scaled_datasets(file_path):
 
     input_path = Path(file_path)

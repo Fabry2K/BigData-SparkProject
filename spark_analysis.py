@@ -1,5 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
+import utils
+from pathlib import Path
 
 # SPARK CORE: LOCALE
 def local_analysis(filepath):
@@ -36,5 +38,8 @@ def local_analysis(filepath):
         collect_set("month").alias("months_active")
     )
 
-    result_3_1.show(20, truncate=False)
+    # stampa e salvataggio del risultato
+    output = result_3_1._jdf.showString(20, 0, False)
+    print(output)
+    utils.append_to_log("Risultati analisi 3.1 sul file " + Path(filepath).stem , output)
 
