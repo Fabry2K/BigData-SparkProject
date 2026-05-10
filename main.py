@@ -3,6 +3,7 @@ import analysis
 import spark_analysis
 from pathlib import Path
 import utils
+import plot
 
 original_file = "files/flight_data_2024.csv"
 file_analysis_3_1 = "files/analisi_3_1.csv"
@@ -10,7 +11,7 @@ file_analysis_3_1 = "files/analisi_3_1.csv"
 # cancella il contenuto del file di log
 open("output/log.txt", "w").close()
 
-# Analisi 3.1: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset
+###### Analisi 3.1: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####
 
 # se non esiste il file per l'analisi 3.1, allora crealo a partire dal file originale
 if not Path(file_analysis_3_1).exists():
@@ -52,8 +53,54 @@ if not Path(file_analysis_3_1).exists():
     # Creazione dei dataset di dimensione 1/4, 1/2, 2x, 4x
     utils.generate_scaled_datasets(file_analysis_3_1)
 
-# Analisi 3.1 con SPARK CORE: LOCALE
-spark_analysis.local_analysis(file_analysis_3_1)
+# creazione della sessione Spark
+spark = spark_analysis.create_session()
+
+# Analisi 3.1 con SPARK CORE in LOCALE
+
+# file 1/4x
+timer_3_1_quarter = spark_analysis.local_analysis(
+    spark,
+    "files/analisi_3_1_quarter.csv"
+)
+
+print("Analisi 3.1 con grandezza 1/4x completata")
+
+# file 1/2x
+timer_3_1_half = spark_analysis.local_analysis(
+    spark,
+    "files/analisi_3_1_half.csv"
+)
+
+print("Analisi 3.1 con grandezza 1/2x completata")
+
+# file 1x
+timer_3_1_normal = spark_analysis.local_analysis(
+    spark,
+    file_analysis_3_1
+)
+
 print("Analisi 3.1 completata")
 
-# QUERY IN CLUSTER
+# file 2x
+timer_3_1_double = spark_analysis.local_analysis(
+    spark,
+    "files/analisi_3_1_double.csv"
+)
+
+print("Analisi 3.1 con grandezza 2x completata")
+
+# file 4x
+timer_3_1_quadruple = spark_analysis.local_analysis(
+    spark,
+    "files/analisi_3_1_quadruple.csv"
+)
+
+print("Analisi 3.1 con grandezza 4x completata")
+
+# Chiusura Spark session
+spark.stop()
+
+plot.plot_analisi_3_1(timer_3_1_quarter, timer_3_1_half, timer_3_1_normal, timer_3_1_double, timer_3_1_quadruple)
+
+# Analisi 3.1 con SPARK CORE in CLUSTER
