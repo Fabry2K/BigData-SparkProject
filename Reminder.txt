@@ -20,3 +20,4 @@ INIZIO ANALISI
 Gli anticipi vengono identificati come ritardi negativi. 
 Pertanto per le statistiche sui ritardi si è ignorato i valori negativi (considerandoli 0) trasformando la colonna, in modo che i valori dei ritardi effettivi
 non vengano "bilanciati" dagli anticipi
+

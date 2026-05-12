@@ -1,6 +1,7 @@
 import pandas as pd
 import analysis
-import spark_analysis
+import spark_core_analysis
+import spark_sql_analysis
 from pathlib import Path
 import utils
 import plot
@@ -54,53 +55,97 @@ if not Path(file_analysis_3_1).exists():
     utils.generate_scaled_datasets(file_analysis_3_1)
 
 # creazione della sessione Spark
-spark = spark_analysis.create_session()
+spark = spark_core_analysis.create_session()
 
 # Analisi 3.1 con SPARK CORE in LOCALE
 
 # file 1/4x
-timer_3_1_quarter = spark_analysis.local_analysis(
+timer_spark_3_1_quarter = spark_core_analysis.local_analysis(
     spark,
     "files/analisi_3_1_quarter.csv"
 )
-
-print("Analisi 3.1 con grandezza 1/4x completata")
+print("Analisi 3.1 SPARK CORE locale con grandezza 1/4x completata")
 
 # file 1/2x
-timer_3_1_half = spark_analysis.local_analysis(
+timer_spark_3_1_half = spark_core_analysis.local_analysis(
     spark,
     "files/analisi_3_1_half.csv"
 )
-
-print("Analisi 3.1 con grandezza 1/2x completata")
+print("Analisi 3.1 SPARK CORE locale con grandezza 1/2x completata")
 
 # file 1x
-timer_3_1_normal = spark_analysis.local_analysis(
+timer_spark_3_1_normal = spark_core_analysis.local_analysis(
     spark,
     file_analysis_3_1
 )
-
-print("Analisi 3.1 completata")
+print("Analisi 3.1 SPARK CORE locale completata")
 
 # file 2x
-timer_3_1_double = spark_analysis.local_analysis(
+timer_spark_3_1_double = spark_core_analysis.local_analysis(
     spark,
     "files/analisi_3_1_double.csv"
 )
-
-print("Analisi 3.1 con grandezza 2x completata")
-
+print("Analisi 3.1 SPARK CORE locale con grandezza 2x completata")
 # file 4x
-timer_3_1_quadruple = spark_analysis.local_analysis(
+timer_spark_3_1_quadruple = spark_core_analysis.local_analysis(
     spark,
     "files/analisi_3_1_quadruple.csv"
 )
+print("Analisi 3.1 SPARK CORE locale con grandezza 4x completata")
 
-print("Analisi 3.1 con grandezza 4x completata")
+
+plot.plot_analisi_3_1(timer_spark_3_1_quarter, timer_spark_3_1_half, timer_spark_3_1_normal, timer_spark_3_1_double, timer_spark_3_1_quadruple, "Analisi 3.1 Spark Core Locale", "output/spark_core_local_analysis_3_1.png")
+
+# Analisi 3.1 con SPARK CORE in CLUSTER
+# TODO
+
+
+
+
+# Analisi 3.1 con SPARK SQL in LOCALE
+
+# file 1/4x
+timer_spark_sql_3_1_quarter = spark_sql_analysis.local_analysis(
+    spark,
+    "files/analisi_3_1_quarter.csv"
+)
+print("Analisi 3.1 SPARK SQL locale con grandezza 1/4x completata")
+
+# file 1/2x
+timer_spark_sql_3_1_half = spark_sql_analysis.local_analysis(
+    spark,
+    "files/analisi_3_1_half.csv"
+)
+print("Analisi 3.1 SPARK SQL locale con grandezza 1/2x completata")
+
+# file 1x
+timer_spark_sql_3_1_normal = spark_sql_analysis.local_analysis(
+    spark,
+    file_analysis_3_1
+)
+print("Analisi 3.1 SPARK SQL locale completata")
+
+# file 2x
+timer_spark_sql_3_1_double = spark_sql_analysis.local_analysis(
+    spark,
+    "files/analisi_3_1_double.csv"
+)
+print("Analisi 3.1 SPARK SQL locale con grandezza 2x completata")
+
+# file 4x
+timer_spark_sql_3_1_quadruple = spark_sql_analysis.local_analysis(
+    spark,
+    "files/analisi_3_1_quadruple.csv"
+)
+print("Analisi 3.1 SPARK SQL locale con grandezza 4x completata")
+
+
+plot.plot_analisi_3_1(timer_spark_sql_3_1_quarter, timer_spark_sql_3_1_half, timer_spark_sql_3_1_normal, timer_spark_sql_3_1_double, timer_spark_sql_3_1_quadruple, "Analisi 3.1 Spark SQL Locale", "output/spark_sql_local_analysis_3_1.png")
+
+# Analisi 3.1 con SPARK SQL in CLUSTER
+# TODO
+
+
 
 # Chiusura Spark session
 spark.stop()
-
-plot.plot_analisi_3_1(timer_3_1_quarter, timer_3_1_half, timer_3_1_normal, timer_3_1_double, timer_3_1_quadruple)
-
-# Analisi 3.1 con SPARK CORE in CLUSTER
