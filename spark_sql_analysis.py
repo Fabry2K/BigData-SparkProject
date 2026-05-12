@@ -5,6 +5,7 @@ from pathlib import Path
 import time
 
 
+
 # creazione Sessione Spark
 def create_session():
     return SparkSession.builder \
