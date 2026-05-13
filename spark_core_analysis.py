@@ -1,17 +1,7 @@
-from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 import utils
 from pathlib import Path
 import time
-
-
-# creazione Sessione Spark
-def create_session():
-    return SparkSession.builder \
-    .appName("FlightAnalysis") \
-    .master("local[*]") \
-    .config("spark.hadoop.fs.defaultFS", "file:///") \
-    .getOrCreate()
 
 
 # SPARK CORE: LOCALE

@@ -1,6 +1,5 @@
-import pandas as pd
 from pathlib import Path
-
+import pandas as pd
 
 def append_to_log(title, content, logfile="output/log.txt"):
 
@@ -22,7 +21,8 @@ def append_to_log(title, content, logfile="output/log.txt"):
 
         f.write("\n")
 
-def generate_scaled_datasets(file_path):
+# per ora li salva in partizioni, non so se mantenere così
+def generate_scaled_datasets_local(file_path):
 
     input_path = Path(file_path)
 
@@ -38,97 +38,113 @@ def generate_scaled_datasets(file_path):
     df = pd.read_csv(file_path)
 
     original_size = len(df)
-
     print(f"Dataset originale: {original_size} righe")
 
-    # ==========================================================
     # DATASET 1/4
-    # ==========================================================
+    print("\nCreazione dataset 1/4...")
 
-    if not quarter_path.exists():
+    df_quarter = df.sample(
+        frac=0.25,
+        random_state=42
+    )
 
-        print("\nCreazione dataset 1/4...")
+    df_quarter.to_csv(
+        quarter_path,
+        index=False
+    )
 
-        df_quarter = df.sample(
-            frac=0.25,
-            random_state=42
-        )
+    print(f"Creato: {quarter_path}")
 
-        df_quarter.to_csv(
-            quarter_path,
-            index=False
-        )
 
-        print(f"Creato: {quarter_path}")
-
-    else:
-        print(f"\nEsiste già: {quarter_path}")
-
-    # ==========================================================
     # DATASET 1/2
-    # ==========================================================
+    print("\nCreazione dataset 1/2...")
 
-    if not half_path.exists():
+    df_half = df.sample(
+        frac=0.50,
+        random_state=42
+    )
 
-        print("\nCreazione dataset 1/2...")
+    df_half.to_csv(
+        half_path,
+        index=False
+    )
 
-        df_half = df.sample(
-            frac=0.50,
-            random_state=42
-        )
+    print(f"Creato: {half_path}")
 
-        df_half.to_csv(
-            half_path,
-            index=False
-        )
 
-        print(f"Creato: {half_path}")
 
-    else:
-        print(f"\nEsiste già: {half_path}")
-
-    # ==========================================================
     # DATASET 2x
-    # ==========================================================
+    print("\nCreazione dataset doppio...")
 
-    if not double_path.exists():
+    df_double = pd.concat(
+        [df, df],
+        ignore_index=True
+    )
 
-        print("\nCreazione dataset doppio...")
+    df_double.to_csv(
+        double_path,
+        index=False
+    )
 
-        df_double = pd.concat(
-            [df, df],
-            ignore_index=True
-        )
+    print(f"Creato: {double_path}")
 
-        df_double.to_csv(
-            double_path,
-            index=False
-        )
 
-        print(f"Creato: {double_path}")
-
-    else:
-        print(f"\nEsiste già: {double_path}")
-
-    # ==========================================================
     # DATASET 4x
-    # ==========================================================
+    print("\nCreazione dataset quadruplo...")
 
-    if not quadruple_path.exists():
+    df_quadruple = pd.concat(
+        [df, df, df, df],
+        ignore_index=True
+    )
 
-        print("\nCreazione dataset quadruplo...")
+    df_quadruple.to_csv(
+        quadruple_path,
+        index=False
+    )
 
-        df_quadruple = pd.concat(
-            [df, df, df, df],
-            ignore_index=True
-        )
+    print(f"Creato: {quadruple_path}")
 
-        df_quadruple.to_csv(
-            quadruple_path,
-            index=False
-        )
 
-        print(f"Creato: {quadruple_path}")
 
-    else:
-        print(f"\nEsiste già: {quadruple_path}")
+# per ora li salva in partizioni, non so se mantenere così
+def generate_scaled_datasets_cluster(spark, file_path):
+
+    input_path = Path(file_path)
+
+    original_name = input_path.stem
+    output_dir = input_path.parent
+
+    quarter_path = output_dir / f"{original_name}_quarter"
+    half_path = output_dir / f"{original_name}_half"
+    double_path = output_dir / f"{original_name}_double"
+    quadruple_path = output_dir / f"{original_name}_quadruple"
+
+    # Lettura dataset originale
+    df = spark.read.csv(file_path, header=True, inferSchema=True)
+
+    original_size = df.count()
+    print(f"Dataset originale: {original_size} righe")
+
+    # 1/4
+    df.sample(False, 0.25, seed=42) \
+        .write.mode("overwrite").csv(str(quarter_path), header=True)
+
+    print(f"Creato: {quarter_path}")
+
+    # 1/2
+    df.sample(False, 0.50, seed=42) \
+        .write.mode("overwrite").csv(str(half_path), header=True)
+
+    print(f"Creato: {half_path}")
+
+    # 2x
+    df.union(df) \
+        .write.mode("overwrite").csv(str(double_path), header=True)
+
+    print(f"Creato: {double_path}")
+
+    # 4x
+    df.union(df).union(df).union(df) \
+        .write.mode("overwrite").csv(str(quadruple_path), header=True)
+
+    print(f"Creato: {quadruple_path}")
