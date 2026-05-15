@@ -21,3 +21,10 @@ Gli anticipi vengono identificati come ritardi negativi.
 Pertanto per le statistiche sui ritardi si è ignorato i valori negativi (considerandoli 0) trasformando la colonna, in modo che i valori dei ritardi effettivi
 non vengano "bilanciati" dagli anticipi
 
+
+***** PUNTO 3.3 DEL PROGETTO *****
+op_unique_carrier ->	identificare la compagnia
+origin	->          aeroporto di partenza
+dep_delay	->      ritardo medio partenza + ranking
+arr_delay	->      ritardo medio arrivo
+cancelled	->      tasso di cancellazione

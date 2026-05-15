@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 
-def plot_analisi_3_1(timer_3_1_quarter, timer_3_1_half, timer_3_1_normal, timer_3_1_double, timer_3_1_quadruple, name, path):
+def plot_analisi(timer_quarter, timer_half, timer_normal, timer_double, timer_quadruple, name, path):
     # dimensioni dataset
     dataset_sizes = [
         "1/4x",
@@ -13,11 +13,11 @@ def plot_analisi_3_1(timer_3_1_quarter, timer_3_1_half, timer_3_1_normal, timer_
 
     # tempi misurati
     execution_times = [
-        timer_3_1_quarter,
-        timer_3_1_half,
-        timer_3_1_normal,
-        timer_3_1_double,
-        timer_3_1_quadruple
+        timer_quarter,
+        timer_half,
+        timer_normal,
+        timer_double,
+        timer_quadruple
     ]
 
     # creazione grafico
