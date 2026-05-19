@@ -21,6 +21,8 @@ spark_cluster = SparkSession.builder \
     .getOrCreate()
 
 
+# TODO: analisi record significativi e nulli
+
 
 ###### Analisi 3.1: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####
 
@@ -30,7 +32,7 @@ analysis_3_1.analize_local(spark_local)  # analisi 3.1 locale
 
 
 
-###### Analisi 3.2: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####
+###### Analisi 3.3: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####
 
 analysis_3_3.initialize_files(spark_local, spark_cluster, original_file)      # inizializza i file per le analisi, sia per locale che per cluster
 
