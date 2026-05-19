@@ -25,20 +25,29 @@ class FlightAnalysis(MRJob):
         try:
             row = next(csv.reader(StringIO(line)))
 
-            month = row[1]
+            # keys (codice compagnia, aeroporto di partenza, mese)
             carrier = row[2]
             origin = row[4]
+            # destination = row[]  --> non so quale sia la colonna :(
+            month = row[1]
 
+            # tratta
+            # route = (origin, destination)
+
+            # ritardo in partenza, ritardo in arrivo
             dep_delay = float(row[6]) if row[6] else 0
             arr_delay = float(row[7]) if row[7] else 0
-
+            # voli cancellati
             cancelled = int(row[8]) if row[8] else 0
 
-            # ritardi negativi portati a 0
+            # ritardi negativi (arrivi e partenze in anticipo) portati a 0
             dep_delay = max(dep_delay, 0)
             arr_delay = max(arr_delay, 0)
 
+
+            # creazione mappa key x value
             key = (carrier, origin)
+            # key = (carrier, route)
 
             value = (
                 1,
@@ -57,6 +66,7 @@ class FlightAnalysis(MRJob):
 
     def reducer_statistics(self, key, values):
 
+        # variabili attese 
         total_flights = 0
 
         min_delay = float("inf")
@@ -78,6 +88,7 @@ class FlightAnalysis(MRJob):
                 month
             ) = value
 
+
             total_flights += count
 
             min_delay = min(min_delay, min_arr)
@@ -89,8 +100,9 @@ class FlightAnalysis(MRJob):
 
             months.add(month)
 
+        # ritardo medio per key ottenuto dai parametri appena calcolati
         avg_delay = sum_delay / total_flights
-
+        # tasso di cancellazione ottenuto dai paramteri appena calcolati
         cancellation_rate = total_cancelled / total_flights
 
         yield key, {
