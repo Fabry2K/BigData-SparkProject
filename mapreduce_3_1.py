@@ -28,7 +28,7 @@ class FlightAnalysis(MRJob):
             # keys (codice compagnia, aeroporto di partenza, mese)
             carrier = row[2]
             origin = row[4]
-            # destination = row[]  --> non so quale sia la colonna :(
+            # destination = row[6]  ?
             month = row[1]
 
             # tratta

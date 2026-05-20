@@ -46,3 +46,9 @@ def check_duplicates(df):
     print("=" * 80)
 
     return n_duplicates
+
+# def general(df):
+#     pd.set_option('display.max_rows', None)
+#     print(df["origin"].value_counts())
+
+# general(pd.read_csv("files/analisi_3_1.csv", dtype=str))

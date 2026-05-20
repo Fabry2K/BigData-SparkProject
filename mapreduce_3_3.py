@@ -34,12 +34,14 @@ class FlightAnalysis3_3(MRJob):
             if row[0] == "op_unique_carrier":
                 return
 
+            # keys (codice compagnia, aeroporto di partenza)
             carrier = row[0]
             origin = row[1]
 
+            # ritardo in partenza, ritardo in arrivo
             dep_delay = max(float(row[2]), 0)
             arr_delay = max(float(row[3]), 0)
-
+            # voli cancellati
             cancelled = float(row[4])
 
             yield origin, (
@@ -53,12 +55,15 @@ class FlightAnalysis3_3(MRJob):
         except:
             pass
 
+
     def reducer_stats(self, origin, values):
 
         company_data = {}
 
+        # ritardo totale per aeroporto e numero di voli per aeroporto
         total_airport_dep_delay = 0
         total_airport_flights = 0
+
 
         for carrier, dep_delay, arr_delay, cancelled, count in values:
 
@@ -70,35 +75,33 @@ class FlightAnalysis3_3(MRJob):
                     "cancelled": 0
                 }
 
+            # numero voli per origin e carrier
             company_data[carrier]["flights"] += count
+            # ritardo per origin e carrier
             company_data[carrier]["dep_delay"] += dep_delay
             company_data[carrier]["arr_delay"] += arr_delay
             company_data[carrier]["cancelled"] += cancelled
 
+            # ritardo per origin
             total_airport_dep_delay += dep_delay
+            # numero voli per origin
             total_airport_flights += count
 
-        airport_avg_dep_delay = (
-            total_airport_dep_delay / total_airport_flights
-        )
+
+        # ritardo medio in partenza per origin
+        airport_avg_dep_delay = (total_airport_dep_delay / total_airport_flights)
 
         for carrier, stats in company_data.items():
 
-            avg_dep_delay = (
-                stats["dep_delay"] / stats["flights"]
-            )
+            # ritardo medio in partenza per carrier
+            avg_dep_delay = (stats["dep_delay"] / stats["flights"])
+            # ritardo medio in arrivo per carrier
+            avg_arr_delay = (stats["arr_delay"] / stats["flights"])
+            # tasso di cancellazione
+            cancellation_rate = (stats["cancelled"] / stats["flights"])
 
-            avg_arr_delay = (
-                stats["arr_delay"] / stats["flights"]
-            )
-
-            cancellation_rate = (
-                stats["cancelled"] / stats["flights"]
-            )
-
-            dep_delay_diff = (
-                avg_dep_delay - airport_avg_dep_delay
-            )
+            # differenza tra ritardo medio in partenza della compagnia
+            dep_delay_diff = (avg_dep_delay - airport_avg_dep_delay)
 
             yield origin, (
                 carrier,
@@ -109,9 +112,19 @@ class FlightAnalysis3_3(MRJob):
                 dep_delay_diff
             )
 
-    # ==========================================================
+    # ===================================================================
     # STEP 2
-    # ==========================================================
+    # ===================================================================
+    # A questo punto, abbiamo, per compagnia:
+    #   - numero di voli 
+    #   - ritardo medio in partenza
+    #   - ritardo medio in arrivo
+    #   - tasso di cancellazione
+    #   - differenza tra ritardi in partenza medi di compagnia e aeroporto
+    #
+    # Procediamo col raggruppare le compagnie per aeroporto, ordinandole
+    # in base al ritardo medio in partenza (dalla migliore alla peggiore)
+    # ====================================================================
 
     def mapper_ranking(self, origin, values):
 
@@ -126,10 +139,9 @@ class FlightAnalysis3_3(MRJob):
 
     def reducer_ranking(self, origin, values):
 
-        sorted_companies = sorted(
-            values,
-            key=lambda x: x[2]
-        )
+        # ordinamento compagnie in base all'aeroporto
+        sorted_companies = sorted(values, key=lambda x: x[2])
+
 
         rank = 1
 
