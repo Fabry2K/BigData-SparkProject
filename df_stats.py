@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Analisi Dataframe
 def analyze_dataframe(df):
@@ -48,7 +49,12 @@ def check_duplicates(df):
     return n_duplicates
 
 # def general(df):
-#     pd.set_option('display.max_rows', None)
-#     print(df["origin"].value_counts())
+#     import matplotlib.pyplot as plt
+
+#     print(df.groupby(["origin", "op_unique_carrier", "dest"]).size())
+
+#     # dist["count"].hist(bins=50)
+#     # plt.title("Distribuzione dei conteggi (origin, carrier)")
+#     # plt.show()
 
 # general(pd.read_csv("files/analisi_3_1.csv", dtype=str))

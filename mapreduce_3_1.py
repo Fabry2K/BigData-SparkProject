@@ -28,7 +28,7 @@ class FlightAnalysis(MRJob):
             # keys (codice compagnia, aeroporto di partenza, mese)
             carrier = row[2]
             origin = row[4]
-            # destination = row[6]  ?
+            destination = row[5]  
             month = row[1]
 
             # tratta
@@ -46,7 +46,7 @@ class FlightAnalysis(MRJob):
 
 
             # creazione mappa key x value
-            key = (carrier, origin)
+            key = (carrier, origin, destination)
             # key = (carrier, route)
 
             value = (

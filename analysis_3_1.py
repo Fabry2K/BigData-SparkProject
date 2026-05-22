@@ -1,7 +1,7 @@
 import df_stats
 import spark_core_analysis
 import spark_sql_analysis
-import hadoop_analysis
+from hadoop_analysis_copy import hadoop_executor
 import hive_analysis
 from pathlib import Path
 import utils
@@ -91,7 +91,7 @@ def initialize_files(spark_local, spark_cluster, original_file):
     #     print("file per analisi 3.1 in locale già presenti")
 
 # analisi in locale
-# def analize_local(spark):
+def analize_local(spark):
 
 #     # SPARK CORE locale
 #     # analisi file 1/4x
@@ -172,12 +172,14 @@ def initialize_files(spark_local, spark_cluster, original_file):
 #     plot.plot_analisi(timer_spark_sql_3_1_quarter, timer_spark_sql_3_1_half, timer_spark_sql_3_1_normal, timer_spark_sql_3_1_double, timer_spark_sql_3_1_quadruple, "Analisi 3.1 Spark SQL Locale", "output/spark_sql_local_analysis_3_1.png")
 
 
-#     # analisi HADOOP MAPREDUCE in locale
-#     # file 1/4x
-#     timer_hadoop_3_1_quarter = hadoop_analysis.local_analysis_3_1(
-#         "files/analisi_3_1_quarter.csv",
-#         "output/log.txt"
-#     )
+#   # analisi HADOOP MAPREDUCE in locale
+#   # file 1/4x
+    timer_hadoop_3_1 = hadoop_executor("hadoop_3_1/hadoop_3_1_mapper.py", 
+                                               "hadoop_3_1/hadoop_3_1_reducer.py", 
+                                               file_local,
+                                               "output/log_hadoop_3_1.txt")
+    
+    print(timer_hadoop_3_1)
 
 #     # file 1/2x
 #     timer_hadoop_3_1_half = hadoop_analysis.local_analysis_3_1(
@@ -185,25 +187,25 @@ def initialize_files(spark_local, spark_cluster, original_file):
 #         "output/log.txt"
 #     )
 
-#     # file 1x
+# #     # file 1x
 #     timer_hadoop_3_1 = hadoop_analysis.local_analysis_3_1(
 #         file_local,
 #         "output/log.txt"
 #     )
 
-#     # file 2x
+# #     # file 2x
 #     timer_hadoop_3_1_double = hadoop_analysis.local_analysis_3_1(
 #         "files/analisi_3_1_double.csv",
 #         "output/log.txt"
 #     )
 
-#     # file 4x
+# #     # file 4x
 #     timer_hadoop_3_1_quadruple = hadoop_analysis.local_analysis_3_1(
 #         "files/analisi_3_1_quadruple.csv",
 #         "output/log.txt"
 #     )
 
-#     # plot dei tempi HADOOP locale
+# #     # plot dei tempi HADOOP locale
 #     plot.plot_analisi(timer_hadoop_3_1_quarter, timer_hadoop_3_1_half, timer_hadoop_3_1, timer_hadoop_3_1_double, timer_hadoop_3_1_quadruple, "Analisi 3.1 Hadoop Map Reduce Locale", "output/hadoop_local_analysis_3_1.png")
 
 
