@@ -1,0 +1,125 @@
+
+======================================================================
+Execution timestamp: 2026-05-23 13:12:50.912289
+Execution time: 44.30 seconds
+
+HADOOP METRICS
+--------------------------------------------------------------------------------
+map_time: 44992
+reduce_time: 21790
+map_tasks: 4
+reduce_tasks: 1
+
+TOP 10 RESULTS
+----------------------------------------------------------------------
+9E|ABE|ATL	{"num_flights": 1017, "min_arr_delay": 0.0, "max_arr_delay": 597.0, "avg_arr_delay": 13.43362831858407, "cancellation_rate": 0.01376597836774828, "months_active": ["9", "5", "3", "4", "10", "12", "2", "6", "7", "1", "8", "11"]}
+9E|ABY|ATL	{"num_flights": 38, "min_arr_delay": 0.0, "max_arr_delay": 332.0, "avg_arr_delay": 15.842105263157896, "cancellation_rate": 0.0, "months_active": ["3", "2", "12", "1", "11"]}
+9E|AEX|ATL	{"num_flights": 878, "min_arr_delay": 0.0, "max_arr_delay": 1005.0, "avg_arr_delay": 19.134396355353076, "cancellation_rate": 0.010250569476082005, "months_active": ["9", "5", "4", "3", "10", "2", "12", "6", "7", "1", "8", "11"]}
+9E|AGS|ATL	{"num_flights": 1580, "min_arr_delay": 0.0, "max_arr_delay": 1083.0, "avg_arr_delay": 15.89240506329114, "cancellation_rate": 0.02088607594936709, "months_active": ["9", "5", "4", "3", "10", "12", "2", "6", "7", "1", "8", "11"]}
+9E|AGS|AUS	{"num_flights": 2, "min_arr_delay": 31.0, "max_arr_delay": 90.0, "avg_arr_delay": 60.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|DCA	{"num_flights": 2, "min_arr_delay": 0.0, "max_arr_delay": 107.0, "avg_arr_delay": 53.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|DTW	{"num_flights": 6, "min_arr_delay": 0.0, "max_arr_delay": 29.0, "avg_arr_delay": 7.333333333333333, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|JFK	{"num_flights": 2, "min_arr_delay": 0.0, "max_arr_delay": 35.0, "avg_arr_delay": 17.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|LGA	{"num_flights": 11, "min_arr_delay": 0.0, "max_arr_delay": 51.0, "avg_arr_delay": 5.818181818181818, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|ALB|DTW	{"num_flights": 435, "min_arr_delay": 0.0, "max_arr_delay": 400.0, "avg_arr_delay": 9.554022988505746, "cancellation_rate": 0.004597701149425287, "months_active": ["9", "5", "4", "3", "10", "2", "12", "6", "7", "1", "8", "11"]}
+
+
+======================================================================
+Execution timestamp: 2026-05-23 13:13:43.049546
+Execution time: 44.18 seconds
+
+HADOOP METRICS
+--------------------------------------------------------------------------------
+map_time: 48768
+reduce_time: 20732
+map_tasks: 4
+reduce_tasks: 1
+
+TOP 10 RESULTS
+----------------------------------------------------------------------
+9E|ABE|ATL	{"num_flights": 1017, "min_arr_delay": 0.0, "max_arr_delay": 597.0, "avg_arr_delay": 13.43362831858407, "cancellation_rate": 0.01376597836774828, "months_active": ["8", "11", "12", "9", "6", "1", "5", "2", "7", "4", "10", "3"]}
+9E|ABY|ATL	{"num_flights": 38, "min_arr_delay": 0.0, "max_arr_delay": 332.0, "avg_arr_delay": 15.842105263157896, "cancellation_rate": 0.0, "months_active": ["12", "11", "1", "2", "3"]}
+9E|AEX|ATL	{"num_flights": 878, "min_arr_delay": 0.0, "max_arr_delay": 1005.0, "avg_arr_delay": 19.134396355353076, "cancellation_rate": 0.010250569476082005, "months_active": ["11", "8", "6", "9", "1", "12", "5", "2", "7", "4", "10", "3"]}
+9E|AGS|ATL	{"num_flights": 1580, "min_arr_delay": 0.0, "max_arr_delay": 1083.0, "avg_arr_delay": 15.89240506329114, "cancellation_rate": 0.02088607594936709, "months_active": ["11", "8", "12", "9", "6", "1", "5", "2", "7", "4", "10", "3"]}
+9E|AGS|AUS	{"num_flights": 2, "min_arr_delay": 31.0, "max_arr_delay": 90.0, "avg_arr_delay": 60.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|DCA	{"num_flights": 2, "min_arr_delay": 0.0, "max_arr_delay": 107.0, "avg_arr_delay": 53.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|DTW	{"num_flights": 6, "min_arr_delay": 0.0, "max_arr_delay": 29.0, "avg_arr_delay": 7.333333333333333, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|JFK	{"num_flights": 2, "min_arr_delay": 0.0, "max_arr_delay": 35.0, "avg_arr_delay": 17.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|LGA	{"num_flights": 11, "min_arr_delay": 0.0, "max_arr_delay": 51.0, "avg_arr_delay": 5.818181818181818, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|ALB|DTW	{"num_flights": 435, "min_arr_delay": 0.0, "max_arr_delay": 400.0, "avg_arr_delay": 9.554022988505746, "cancellation_rate": 0.004597701149425287, "months_active": ["6", "11", "12", "8", "9", "5", "2", "3", "7", "4", "10", "1"]}
+
+
+======================================================================
+Execution timestamp: 2026-05-23 13:14:32.724787
+Execution time: 42.10 seconds
+
+HADOOP METRICS
+--------------------------------------------------------------------------------
+map_time: 44019
+reduce_time: 19874
+map_tasks: 4
+reduce_tasks: 1
+
+TOP 10 RESULTS
+----------------------------------------------------------------------
+9E|ABE|ATL	{"num_flights": 1017, "min_arr_delay": 0.0, "max_arr_delay": 597.0, "avg_arr_delay": 13.43362831858407, "cancellation_rate": 0.01376597836774828, "months_active": ["11", "7", "1", "12", "9", "4", "6", "3", "5", "10", "2", "8"]}
+9E|ABY|ATL	{"num_flights": 38, "min_arr_delay": 0.0, "max_arr_delay": 332.0, "avg_arr_delay": 15.842105263157896, "cancellation_rate": 0.0, "months_active": ["11", "1", "12", "3", "2"]}
+9E|AEX|ATL	{"num_flights": 878, "min_arr_delay": 0.0, "max_arr_delay": 1005.0, "avg_arr_delay": 19.134396355353076, "cancellation_rate": 0.010250569476082005, "months_active": ["11", "7", "1", "12", "9", "4", "6", "3", "5", "10", "2", "8"]}
+9E|AGS|ATL	{"num_flights": 1580, "min_arr_delay": 0.0, "max_arr_delay": 1083.0, "avg_arr_delay": 15.89240506329114, "cancellation_rate": 0.02088607594936709, "months_active": ["11", "7", "1", "12", "9", "4", "6", "3", "5", "10", "2", "8"]}
+9E|AGS|AUS	{"num_flights": 2, "min_arr_delay": 31.0, "max_arr_delay": 90.0, "avg_arr_delay": 60.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|DCA	{"num_flights": 2, "min_arr_delay": 0.0, "max_arr_delay": 107.0, "avg_arr_delay": 53.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|DTW	{"num_flights": 6, "min_arr_delay": 0.0, "max_arr_delay": 29.0, "avg_arr_delay": 7.333333333333333, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|JFK	{"num_flights": 2, "min_arr_delay": 0.0, "max_arr_delay": 35.0, "avg_arr_delay": 17.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|LGA	{"num_flights": 11, "min_arr_delay": 0.0, "max_arr_delay": 51.0, "avg_arr_delay": 5.818181818181818, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|ALB|DTW	{"num_flights": 435, "min_arr_delay": 0.0, "max_arr_delay": 400.0, "avg_arr_delay": 9.554022988505746, "cancellation_rate": 0.004597701149425287, "months_active": ["11", "1", "7", "12", "9", "4", "6", "3", "5", "10", "2", "8"]}
+
+
+======================================================================
+Execution timestamp: 2026-05-23 13:15:23.795880
+Execution time: 43.66 seconds
+
+HADOOP METRICS
+--------------------------------------------------------------------------------
+map_time: 46445
+reduce_time: 21557
+map_tasks: 4
+reduce_tasks: 1
+
+TOP 10 RESULTS
+----------------------------------------------------------------------
+9E|ABE|ATL	{"num_flights": 1017, "min_arr_delay": 0.0, "max_arr_delay": 597.0, "avg_arr_delay": 13.43362831858407, "cancellation_rate": 0.01376597836774828, "months_active": ["6", "7", "9", "3", "4", "5", "2", "1", "8", "12", "11", "10"]}
+9E|ABY|ATL	{"num_flights": 38, "min_arr_delay": 0.0, "max_arr_delay": 332.0, "avg_arr_delay": 15.842105263157896, "cancellation_rate": 0.0, "months_active": ["3", "2", "1", "12", "11"]}
+9E|AEX|ATL	{"num_flights": 878, "min_arr_delay": 0.0, "max_arr_delay": 1005.0, "avg_arr_delay": 19.134396355353076, "cancellation_rate": 0.010250569476082005, "months_active": ["6", "7", "9", "4", "3", "5", "2", "1", "8", "12", "11", "10"]}
+9E|AGS|ATL	{"num_flights": 1580, "min_arr_delay": 0.0, "max_arr_delay": 1083.0, "avg_arr_delay": 15.89240506329114, "cancellation_rate": 0.02088607594936709, "months_active": ["6", "7", "9", "4", "3", "5", "2", "1", "8", "12", "11", "10"]}
+9E|AGS|AUS	{"num_flights": 2, "min_arr_delay": 31.0, "max_arr_delay": 90.0, "avg_arr_delay": 60.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|DCA	{"num_flights": 2, "min_arr_delay": 0.0, "max_arr_delay": 107.0, "avg_arr_delay": 53.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|DTW	{"num_flights": 6, "min_arr_delay": 0.0, "max_arr_delay": 29.0, "avg_arr_delay": 7.333333333333333, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|JFK	{"num_flights": 2, "min_arr_delay": 0.0, "max_arr_delay": 35.0, "avg_arr_delay": 17.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|LGA	{"num_flights": 11, "min_arr_delay": 0.0, "max_arr_delay": 51.0, "avg_arr_delay": 5.818181818181818, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|ALB|DTW	{"num_flights": 435, "min_arr_delay": 0.0, "max_arr_delay": 400.0, "avg_arr_delay": 9.554022988505746, "cancellation_rate": 0.004597701149425287, "months_active": ["6", "7", "4", "3", "9", "5", "2", "1", "8", "12", "11", "10"]}
+
+
+======================================================================
+Execution timestamp: 2026-05-23 13:16:16.815262
+Execution time: 44.81 seconds
+
+HADOOP METRICS
+--------------------------------------------------------------------------------
+map_time: 46165
+reduce_time: 21663
+map_tasks: 4
+reduce_tasks: 1
+
+TOP 10 RESULTS
+----------------------------------------------------------------------
+9E|ABE|ATL	{"num_flights": 1017, "min_arr_delay": 0.0, "max_arr_delay": 597.0, "avg_arr_delay": 13.43362831858407, "cancellation_rate": 0.01376597836774828, "months_active": ["7", "1", "10", "11", "12", "9", "4", "8", "6", "3", "2", "5"]}
+9E|ABY|ATL	{"num_flights": 38, "min_arr_delay": 0.0, "max_arr_delay": 332.0, "avg_arr_delay": 15.842105263157896, "cancellation_rate": 0.0, "months_active": ["1", "11", "12", "3", "2"]}
+9E|AEX|ATL	{"num_flights": 878, "min_arr_delay": 0.0, "max_arr_delay": 1005.0, "avg_arr_delay": 19.134396355353076, "cancellation_rate": 0.010250569476082005, "months_active": ["7", "1", "10", "11", "12", "9", "4", "8", "6", "3", "2", "5"]}
+9E|AGS|ATL	{"num_flights": 1580, "min_arr_delay": 0.0, "max_arr_delay": 1083.0, "avg_arr_delay": 15.89240506329114, "cancellation_rate": 0.02088607594936709, "months_active": ["7", "1", "10", "11", "12", "9", "4", "8", "6", "5", "3", "2"]}
+9E|AGS|AUS	{"num_flights": 2, "min_arr_delay": 31.0, "max_arr_delay": 90.0, "avg_arr_delay": 60.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|DCA	{"num_flights": 2, "min_arr_delay": 0.0, "max_arr_delay": 107.0, "avg_arr_delay": 53.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|DTW	{"num_flights": 6, "min_arr_delay": 0.0, "max_arr_delay": 29.0, "avg_arr_delay": 7.333333333333333, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|JFK	{"num_flights": 2, "min_arr_delay": 0.0, "max_arr_delay": 35.0, "avg_arr_delay": 17.5, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|AGS|LGA	{"num_flights": 11, "min_arr_delay": 0.0, "max_arr_delay": 51.0, "avg_arr_delay": 5.818181818181818, "cancellation_rate": 0.0, "months_active": ["4"]}
+9E|ALB|DTW	{"num_flights": 435, "min_arr_delay": 0.0, "max_arr_delay": 400.0, "avg_arr_delay": 9.554022988505746, "cancellation_rate": 0.004597701149425287, "months_active": ["7", "1", "10", "11", "12", "9", "4", "3", "5", "2", "6", "8"]}
+

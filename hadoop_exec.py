@@ -1,4 +1,5 @@
 import os
+import re
 import time
 from datetime import datetime
 import subprocess
@@ -10,10 +11,12 @@ import subprocess
 
 def run_cmd(cmd):
     result = subprocess.run(cmd, shell=True, text=True, capture_output=True)
+
     if result.returncode != 0:
         print(result.stderr)
         raise RuntimeError("Command failed")
-    return result.stdout
+
+    return result.stdout, result.stderr
 
 
 
@@ -52,7 +55,7 @@ def save_to_local_file(data, output_file):
 
 
 # funzione che crea un file di log dove memorizzare i risultati
-def save_log(output_data, execution_time, log_file):
+def save_log(output_data, execution_time, metrics, log_file):
 
     # crea directory se non esiste
     os.makedirs(os.path.dirname(log_file), exist_ok=True)
@@ -70,6 +73,12 @@ def save_log(output_data, execution_time, log_file):
         f.write(f"Execution timestamp: {datetime.now()}\n")
         f.write(f"Execution time: {execution_time:.2f} seconds\n")
 
+        f.write("\nHADOOP METRICS\n")
+        f.write("-" * 80 + "\n")
+
+        for k, v in metrics.items():
+            f.write(f"{k}: {v}\n")
+
         f.write("\nTOP 10 RESULTS\n")
         f.write("-" * 70)
         f.write("\n")
@@ -79,6 +88,24 @@ def save_log(output_data, execution_time, log_file):
 
         f.write("\n")
 
+
+def parse_hadoop_metrics(log_text):
+
+    metrics = {}
+
+    patterns = {
+        "map_time": r"Total time spent by all maps.*?=(\d+)",
+        "reduce_time": r"Total time spent by all reduces.*?=(\d+)",
+        "map_tasks": r"Launched map tasks=(\d+)",
+        "reduce_tasks": r"Launched reduce tasks=(\d+)"
+    }
+
+    for k, p in patterns.items():
+        m = re.search(p, log_text)
+        if m:
+            metrics[k] = int(m.group(1))
+
+    return metrics
 
 # ----------------------------
 # MAIN FUNCTIONS
@@ -90,7 +117,7 @@ def save_log(output_data, execution_time, log_file):
 # ----------------------------
 
 # funzione che esegue il job su HADOOP
-def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_path, input_path, output_path):
+def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_path, input_path, output_path, log_output_file_path):
 
     mapper_hdfs = f"/tmp/{os.path.basename(mapper_file)}"
     reducer_hdfs = f"/tmp/{os.path.basename(reducer_file)}"
@@ -137,19 +164,24 @@ def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_pat
     """
 
     start_time = time.time()
-    run_cmd(cmd)
+    stdout, stderr = run_cmd(cmd)
     end_time = time.time()
 
     print("Job completed!")
 
     execution_time = end_time - start_time
 
+    # log completo Hadoop
+    full_log = stdout + "\n" + stderr
+
+    # parsing metrics
+    metrics = parse_hadoop_metrics(full_log)
 
     # leggere output da HDFS
     output_data = hdfs_cat(output_path)
 
     # salvare in locale
     save_to_local_file(output_data, local_output_file_path)
-    #save_log(output_data, execution_time, log_output_file_path)
+    save_log(output_data, execution_time, metrics, log_output_file_path)
 
-    return execution_time, output_data
+    return execution_time

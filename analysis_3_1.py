@@ -182,37 +182,11 @@ def initialize_files(original_file):
 #
 #   - Esecuzione HADOOP analysis 3.1
 #   - Plot tempi di esecuzione per dimensione
-#   - Log output file 
 #
 #--------------------------------------------
 
 
-#   # Esecuzione Hadoop MapReduce su un quarto, metà, intera, doppia e quadrupla dimensione del file di input
-
-#   # file 1/4x
-#    timer_hadoop_3_1_quarter, hadoop_3_1_quarter_output = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1_quarter", None, "/input/analisi_3_1.csv", "/output/hadoop_3_1_output")
-    
-#   # file 1/2x
-#    timer_hadoop_3_1_half, hadoop_3_1_half_output = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1_half", None, "/input/analisi_3_1.csv", "/output/hadoop_3_1_output")
-
-#   # file 1x
-    timer_hadoop_3_1, hadoop_3_1_output = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1", "output/hadoop_3_1_output", "/input/analisi_3_1.csv", "/output/hadoop_3_1_output")
-
-#   # file 2x
-#   timer_hadoop_3_1_double, hadoop_3_1_double_output = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1_double", None, "/input/analisi_3_1.csv", "/output/hadoop_3_1_output")
-
-#   # file 4x
-#   timer_hadoop_3_1_quadruple, hadoop_3_1_quadruple_output = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1_quadruple", None, "/input/analisi_3_1.csv", "/output/hadoop_3_1_output")
-
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-#   # plot dei tempi HADOOP 
-#    plot.plot_analisi(timer_hadoop_3_1_quarter, timer_hadoop_3_1_half, timer_hadoop_3_1, timer_hadoop_3_1_double, timer_hadoop_3_1_quadruple, "Analisi 3.1 Hadoop Map Reduce Locale", "output/hadoop_local_analysis_3_1.png")
-
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 #   # HADOOP output log
-
     log_path = "output/log_hadooop_3_1.txt"
 
     # elimina se esiste
@@ -221,6 +195,36 @@ def initialize_files(original_file):
 
     # ricrea il file (vuoto)
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
+
+
+
+#   # Esecuzione Hadoop MapReduce su un quarto, metà, intera, doppia e quadrupla dimensione del file di input
+
+#   # file 1/4x
+    timer_hadoop_3_1_quarter = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1_quarter", None, "/input/analisi_3_1.csv", "/output/hadoop_3_1_output", log_path)
+    
+#   # file 1/2x
+    timer_hadoop_3_1_half = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1_half", None, "/input/analisi_3_1.csv", "/output/hadoop_3_1_output", log_path)
+
+#   # file 1x
+    timer_hadoop_3_1 = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1", "output/hadoop_3_1_output", "/input/analisi_3_1.csv", "/output/hadoop_3_1_output", log_path)
+
+#   # file 2x
+    timer_hadoop_3_1_double = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1_double", None, "/input/analisi_3_1.csv", "/output/hadoop_3_1_output", log_path)
+
+#   # file 4x
+    timer_hadoop_3_1_quadruple = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1_quadruple", None, "/input/analisi_3_1.csv", "/output/hadoop_3_1_output", log_path)
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#   # plot dei tempi HADOOP 
+    plot.plot_analisi(timer_hadoop_3_1_quarter, timer_hadoop_3_1_half, timer_hadoop_3_1, timer_hadoop_3_1_double, timer_hadoop_3_1_quadruple, "Analisi 3.1 Hadoop Map Reduce", "output/hadoop_analysis_3_1.png")
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+    
     
 
 #   # file 1/4x
@@ -230,7 +234,7 @@ def initialize_files(original_file):
 #    save_log(hadoop_3_1_half_output, timer_hadoop_3_1_half, log_path)
 
 #   # file 1x
-    save_log(hadoop_3_1_output, timer_hadoop_3_1, log_path)
+#    save_log(hadoop_3_1_output, timer_hadoop_3_1, log_path)
 
 #   # file 2x
 #    save_log(hadoop_3_1_double_output, timer_hadoop_3_1_double, log_path)
