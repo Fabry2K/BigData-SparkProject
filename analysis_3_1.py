@@ -1,7 +1,8 @@
 import df_stats
 import spark_core_analysis
 import spark_sql_analysis
-from hadoop_analysis_copy import hadoop_executor
+from hadoop_exec import hadoop_executor, save_log
+import os
 import hive_analysis
 from pathlib import Path
 import utils
@@ -42,7 +43,7 @@ cols_to_keep = [
 # inizializza i file sia per l'analisi in locale che su cluster
 
 
-def initialize_files(spark_local, spark_cluster, original_file):
+def initialize_files(original_file):
 
     # inizializzazione file in locale (usa pandas perchè spark salva i file in partizioni)
     if not Path(file_local).exists():
@@ -91,7 +92,7 @@ def initialize_files(spark_local, spark_cluster, original_file):
     #     print("file per analisi 3.1 in locale già presenti")
 
 # analisi in locale
-def analize_local(spark):
+# def analize_local(spark):
 
 #     # SPARK CORE locale
 #     # analisi file 1/4x
@@ -172,41 +173,73 @@ def analize_local(spark):
 #     plot.plot_analisi(timer_spark_sql_3_1_quarter, timer_spark_sql_3_1_half, timer_spark_sql_3_1_normal, timer_spark_sql_3_1_double, timer_spark_sql_3_1_quadruple, "Analisi 3.1 Spark SQL Locale", "output/spark_sql_local_analysis_3_1.png")
 
 
-#   # analisi HADOOP MAPREDUCE in locale
+##############################################################################################################################################################################################################################################################################################
+##############################################################################################################################################################################################################################################################################################
+
+#--------------------------------------------
+#   HADOOP MAPREDUCE
+#--------------------------------------------
+#
+#   - Esecuzione HADOOP analysis 3.1
+#   - Plot tempi di esecuzione per dimensione
+#   - Log output file 
+#
+#--------------------------------------------
+
+
+#   # Esecuzione Hadoop MapReduce su un quarto, metà, intera, doppia e quadrupla dimensione del file di input
+
 #   # file 1/4x
-    timer_hadoop_3_1 = hadoop_executor("hadoop_3_1/hadoop_3_1_mapper.py", 
-                                               "hadoop_3_1/hadoop_3_1_reducer.py", 
-                                               file_local,
-                                               "output/log_hadoop_3_1.txt")
+#    timer_hadoop_3_1_quarter, hadoop_3_1_quarter_output = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1_quarter", None, "/input/analisi_3_1.csv", "/output/hadoop_3_1_output")
     
-    print(timer_hadoop_3_1)
+#   # file 1/2x
+#    timer_hadoop_3_1_half, hadoop_3_1_half_output = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1_half", None, "/input/analisi_3_1.csv", "/output/hadoop_3_1_output")
 
-#     # file 1/2x
-#     timer_hadoop_3_1_half = hadoop_analysis.local_analysis_3_1(
-#         "files/analisi_3_1_half.csv",
-#         "output/log.txt"
-#     )
+#   # file 1x
+    timer_hadoop_3_1, hadoop_3_1_output = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1", "output/hadoop_3_1_output", "/input/analisi_3_1.csv", "/output/hadoop_3_1_output")
 
-# #     # file 1x
-#     timer_hadoop_3_1 = hadoop_analysis.local_analysis_3_1(
-#         file_local,
-#         "output/log.txt"
-#     )
+#   # file 2x
+#   timer_hadoop_3_1_double, hadoop_3_1_double_output = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1_double", None, "/input/analisi_3_1.csv", "/output/hadoop_3_1_output")
 
-# #     # file 2x
-#     timer_hadoop_3_1_double = hadoop_analysis.local_analysis_3_1(
-#         "files/analisi_3_1_double.csv",
-#         "output/log.txt"
-#     )
+#   # file 4x
+#   timer_hadoop_3_1_quadruple, hadoop_3_1_quadruple_output = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1_quadruple", None, "/input/analisi_3_1.csv", "/output/hadoop_3_1_output")
 
-# #     # file 4x
-#     timer_hadoop_3_1_quadruple = hadoop_analysis.local_analysis_3_1(
-#         "files/analisi_3_1_quadruple.csv",
-#         "output/log.txt"
-#     )
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# #     # plot dei tempi HADOOP locale
-#     plot.plot_analisi(timer_hadoop_3_1_quarter, timer_hadoop_3_1_half, timer_hadoop_3_1, timer_hadoop_3_1_double, timer_hadoop_3_1_quadruple, "Analisi 3.1 Hadoop Map Reduce Locale", "output/hadoop_local_analysis_3_1.png")
+#   # plot dei tempi HADOOP 
+#    plot.plot_analisi(timer_hadoop_3_1_quarter, timer_hadoop_3_1_half, timer_hadoop_3_1, timer_hadoop_3_1_double, timer_hadoop_3_1_quadruple, "Analisi 3.1 Hadoop Map Reduce Locale", "output/hadoop_local_analysis_3_1.png")
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#   # HADOOP output log
+
+    log_path = "output/log_hadooop_3_1.txt"
+
+    # elimina se esiste
+    if os.path.exists(log_path):
+        os.remove(log_path)
+
+    # ricrea il file (vuoto)
+    os.makedirs(os.path.dirname(log_path), exist_ok=True)
+    
+
+#   # file 1/4x
+#    save_log(hadoop_3_1_quarter_output, timer_hadoop_3_1_quarter, log_path)
+
+#   # file 1/2x
+#    save_log(hadoop_3_1_half_output, timer_hadoop_3_1_half, log_path)
+
+#   # file 1x
+    save_log(hadoop_3_1_output, timer_hadoop_3_1, log_path)
+
+#   # file 2x
+#    save_log(hadoop_3_1_double_output, timer_hadoop_3_1_double, log_path)
+
+#   # file 4x
+#    save_log(hadoop_3_1_quadruple_output, timer_hadoop_3_1_quadruple, log_path)
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 #     # # Analisi 3.1 con HIVE in LOCAL

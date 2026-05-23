@@ -64,5 +64,5 @@ for line in sys.stdin:
     total_cancelled += cancelled
     months.add(month)
 
-# last key
+
 emit(current_key)

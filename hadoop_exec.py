@@ -1,5 +1,6 @@
 import os
 import time
+from datetime import datetime
 import subprocess
 
 
@@ -40,6 +41,9 @@ def hdfs_cat(output_path):
 
 # funzione che salva il file di output in una directory locale
 def save_to_local_file(data, output_file):
+    if output_file is None:
+        return
+    
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
     with open(output_file, "w", encoding="utf-8") as f:
@@ -47,11 +51,46 @@ def save_to_local_file(data, output_file):
 
 
 
+# funzione che crea un file di log dove memorizzare i risultati
+def save_log(output_data, execution_time, log_file):
+
+    # crea directory se non esiste
+    os.makedirs(os.path.dirname(log_file), exist_ok=True)
+
+    # prende solo le prime 10 righe NON vuote
+    lines = [line for line in output_data.splitlines() if line.strip()]
+    top_10 = lines[:10]
+
+    with open(log_file, "a", encoding="utf-8") as f:
+
+        f.write("\n")
+        f.write("=" * 70)
+        f.write("\n")
+
+        f.write(f"Execution timestamp: {datetime.now()}\n")
+        f.write(f"Execution time: {execution_time:.2f} seconds\n")
+
+        f.write("\nTOP 10 RESULTS\n")
+        f.write("-" * 70)
+        f.write("\n")
+
+        for line in top_10:
+            f.write(line + "\n")
+
+        f.write("\n")
+
+
 # ----------------------------
-# HADOOP EXECUTOR
+# MAIN FUNCTIONS
+# ----------------------------
+#
+#   - HADOOP EXECUTOR
+#   - LOG FILE
+#
 # ----------------------------
 
-def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_path, input_path="/input/analisi_3_1.csv", output_path="/output/hadoop_3_1_output"):
+# funzione che esegue il job su HADOOP
+def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_path, input_path, output_path):
 
     mapper_hdfs = f"/tmp/{os.path.basename(mapper_file)}"
     reducer_hdfs = f"/tmp/{os.path.basename(reducer_file)}"
@@ -83,6 +122,7 @@ def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_pat
         print("Removing old output")
         hdfs_rm(output_path)
 
+
     # run job
     print("Running Hadoop job...")
 
@@ -105,11 +145,11 @@ def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_pat
     execution_time = end_time - start_time
 
 
-
     # leggere output da HDFS
     output_data = hdfs_cat(output_path)
 
     # salvare in locale
     save_to_local_file(output_data, local_output_file_path)
+    #save_log(output_data, execution_time, log_output_file_path)
 
-    return execution_time
+    return execution_time, output_data
