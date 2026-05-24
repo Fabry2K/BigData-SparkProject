@@ -154,7 +154,7 @@ def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_pat
     print("Running Hadoop job...")
 
     cmd = f"""
-    hadoop jar $HADOOP_HOME/streaming/hadoop-streaming-3.4.1.jar \
+    hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-3.4.1.jar \
     -file {mapper_file} \
     -file {reducer_file} \
     -mapper "python3 {os.path.basename(mapper_file)}" \

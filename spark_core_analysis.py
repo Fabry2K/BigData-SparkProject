@@ -1,134 +1,151 @@
 from pyspark.sql.functions import *
-import utils
 from pathlib import Path
 import time
 from pyspark.sql.window import Window
+import os
+from datetime import datetime
 
+# funzione di cleaning
+def clean_flight_df(df):
 
-# SPARK CORE: LOCALE analisi 3.1
-def local_analysis_3_1(spark, filepath):
+    df = df \
+        .withColumn("arr_delay", col("arr_delay").cast("double")) \
+        .withColumn("dep_delay", col("dep_delay").cast("double")) \
+        .withColumn("cancelled", col("cancelled").cast("double"))
 
-    spark_df = spark.read.csv(
-        filepath,
+    # elimina null/NaN
+    df = df.fillna({
+        "arr_delay": 0.0,
+        "dep_delay": 0.0,
+        "cancelled": 0.0
+    })
+
+    # sicurezza extra (valori negativi → 0)
+    df = df \
+        .withColumn("arr_delay", when(col("arr_delay") < 0, 0).otherwise(col("arr_delay"))) \
+        .withColumn("dep_delay", when(col("dep_delay") < 0, 0).otherwise(col("dep_delay")))
+
+    return df
+
+# funzione per salvare i log
+def save_spark_log(output_df, execution_time, log_file, title="Spark Analysis"):
+
+    # crea directory se non esiste
+    os.makedirs(os.path.dirname(log_file), exist_ok=True)
+
+    # prende output testuale (come facevi con Hadoop)
+    output_text = output_df._jdf.showString(20, 0, False)
+
+    with open(log_file, "a", encoding="utf-8") as f:
+
+        f.write("\n")
+        f.write("=" * 70 + "\n")
+        f.write(f"{title}\n")
+        f.write(f"Execution timestamp: {datetime.now()}\n")
+        f.write(f"Execution time: {execution_time:.2f} seconds\n")
+
+        f.write("\nRESULTS (TOP 20)\n")
+        f.write("-" * 70 + "\n")
+        f.write(output_text + "\n")
+
+        f.write("\n")
+
+# funzione per analisi 3.1 con spark core su hdfs in locale
+def analysis_3_1(spark, hdfs_input_file):
+
+    df = spark.read.csv(
+        hdfs_input_file,
         header=True,
         inferSchema=True
     )
 
-    # Controllo
-    # spark_df.show(10)
-    # spark_df.printSchema()
-
-
-    # trasformazione della colonna arr_delay: se il valore è negativo viene portato a 0
-    spark_df = spark_df \
-        .withColumn("arr_delay", greatest(col("arr_delay"), lit(0))) \
-        .withColumn("dep_delay", greatest(col("dep_delay"), lit(0)))
+    # data cleaning
+    df = clean_flight_df(df)
 
     start_time = time.time()
 
-    result_3_1 = spark_df.groupBy("op_unique_carrier", "origin") \
-    .agg(
+    result = df.groupBy("op_unique_carrier", "origin").agg(
         count("*").alias("num_flights"),
         min("arr_delay").alias("min_arr_delay"),
         max("arr_delay").alias("max_arr_delay"),
         avg("arr_delay").alias("avg_arr_delay"),
-        (sum("cancelled") / count("*")).alias("cancellation_rate"),
-        collect_set("month").alias("months_active")
+        (sum("cancelled") / count("*")).alias("cancellation_rate")
     )
 
-    result_3_1.collect()
+    result.collect()
 
-    end_time = time.time()
+    execution_time = time.time() - start_time
 
-    execution_time = end_time - start_time
-
-    # stampa e salvataggio del risultato
-    output = result_3_1._jdf.showString(20, 0, False)
+    output = result._jdf.showString(20, 0, False)
 
     print(output)
-    print(f"\nExecution time: {execution_time:.2f} seconds")
+    print(f"Execution time: {execution_time:.2f}")
 
-    utils.append_to_log(
-        "Risultati analisi 3.1 sul file " + Path(filepath).stem,
-        output + f"\n\nExecution time: {execution_time:.2f} seconds"
+    save_spark_log(
+    result,
+    execution_time,
+    "output/log.txt",
+    title="Analisi 3.1 SPARK CORE"
     )
 
     return execution_time
 
-# SPARK CORE: LOCALE analisi 3.3
-def local_analysis_3_3(spark, filepath):
 
-    spark_df = spark.read.csv(
-        filepath,
+# funzione per analisi 3.3 con spark core su hdfs in locale
+def analysis_3_3(spark, hdfs_input_file):
+
+    df = spark.read.csv(
+        hdfs_input_file,
         header=True,
         inferSchema=True
     )
 
-    # Controllo
-    # spark_df.show(10)
-    # spark_df.printSchema()
-
-
-    # trasformazione della colonna arr_delay: se il valore è negativo viene portato a 0
-    spark_df = spark_df \
-        .withColumn("arr_delay", greatest(col("arr_delay"), lit(0))) \
-        .withColumn("dep_delay", greatest(col("dep_delay"), lit(0)))
+    # data cleaning
+    df = clean_flight_df(df)
 
     start_time = time.time()
 
-    # statistiche per coppia compagnia-aeroporto
-    company_airport_stats = spark_df.groupBy(
-        "origin",
-        "op_unique_carrier"
-    ).agg(
+    # statistiche compagnia - aereoporto
+    company_airport = df.groupBy("origin", "op_unique_carrier").agg(
         count("*").alias("num_flights"),
         avg("dep_delay").alias("avg_dep_delay"),
         avg("arr_delay").alias("avg_arr_delay"),
         (sum("cancelled") / count("*")).alias("cancellation_rate")
     )
 
-    # ritardo medio complessivo dell'aeroporto
-    airport_avg_stats = spark_df.groupBy("origin").agg(
+    # media per aereoporto
+    airport_avg = df.groupBy("origin").agg(
         avg("dep_delay").alias("airport_avg_dep_delay")
     )
 
-    # join tra statistiche compagnia e statistiche aeroporto
-    result_3_3 = company_airport_stats.join(
-        airport_avg_stats,
-        on="origin",
-        how="inner"
-    )
+    # join
+    result = company_airport.join(airport_avg, "origin")
 
-    # differenza rispetto alla media dell'aeroporto
-    result_3_3 = result_3_3.withColumn(
+    # differenza
+    result = result.withColumn(
         "dep_delay_diff",
         col("avg_dep_delay") - col("airport_avg_dep_delay")
     )
 
-    # ranking compagnie nell'aeroporto
-    ranking_window = Window.partitionBy("origin") \
-        .orderBy(col("avg_dep_delay").asc())
+    # ranking
+    window = Window.partitionBy("origin").orderBy(col("avg_dep_delay").asc())
 
-    result_3_3 = result_3_3.withColumn(
-        "rank",
-        rank().over(ranking_window)
-    )
+    result = result.withColumn("rank", rank().over(window))
 
-    result_3_3.collect()
+    result.collect()
 
-    end_time = time.time()
+    execution_time = time.time() - start_time
 
-    execution_time = end_time - start_time
-
-    # stampa e salvataggio del risultato
-    output = result_3_3._jdf.showString(20, 0, False)
+    output = result._jdf.showString(20, 0, False)
 
     print(output)
-    print(f"\nExecution time: {execution_time:.2f} seconds")
+    print(f"Execution time: {execution_time:.2f}")
 
-    utils.append_to_log(
-        "Risultati analisi 3.3 sul file " + Path(filepath).stem,
-        output + f"\n\nExecution time: {execution_time:.2f} seconds"
+    save_spark_log(
+    result,
+    execution_time,
+    "output/log.txt",
+    title="Analisi 3.3 SPARK CORE"
     )
 
     return execution_time

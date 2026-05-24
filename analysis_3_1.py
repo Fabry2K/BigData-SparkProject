@@ -12,10 +12,7 @@ from pyspark.sql.functions import col, split
 from pathlib import Path
 import pandas as pd
 
-###### Analisi 3.1: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####
-
-file_local= "files/analisi_3_1.csv"
-file_cluster = "hdfs://localhost:9000/data/analisi_3_1.csv"               
+###### Analisi 3.1: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####        
 
 # colonne utili per 3.1
 cols_to_keep = [
@@ -33,144 +30,144 @@ cols_to_keep = [
 ]
 
 
-# # controlla l'esistenza del file all'interno di hdfs
-# def exists_in_hdfs(spark, path):
-#     # qui spark serve solo come "accesso semplificato" all'hdfs, si può fare anche senza
-#     hadoop_conf = spark._jsc.hadoopConfiguration()
-#     fs = spark._jvm.org.apache.hadoop.fs.FileSystem.get(hadoop_conf)
-#     return fs.exists(spark._jvm.org.apache.hadoop.fs.Path(path))
+
 
 # inizializza i file sia per l'analisi in locale che su cluster
+def initialize_files(original_file, file_local, hdfs_input_path):
 
-
-def initialize_files(original_file):
-
-    # inizializzazione file in locale (usa pandas perchè spark salva i file in partizioni)
+    # ----------------------------
+    # 1. CREA FILE LOCALE SE NON ESISTE
+    # ----------------------------
     if not Path(file_local).exists():
-        print("file per analisi 3.1 in locale non presente, si procede con la creazione")
+        print("File locale non presente, creazione in corso...")
 
         df = pd.read_csv(original_file, dtype=str)
-        print("file csv originale letto correttamente")
+        print("CSV originale letto correttamente")
 
-        # selezione delle colonne
         df_base = df[cols_to_keep].copy()
 
-        # pulizia colonne, parte decimale
-        for col in ["op_carrier_fl_num", "dep_delay", "arr_delay", "distance"]:
-            df_base[col] = df_base[col].str.split(".").str[0]
-        
-        # TODO: controlli null o record non significativi
+        # pulizia decimali
+        for col in ["dep_delay", "arr_delay"]:
+            df_base[col] = df_base[col].astype(str).str.split(".").str[0]
 
-        # salvataggio file in locale
         df_base.to_csv(file_local, index=False)
-        print("file csv per analisi 3.1 creato correttamente")
+        print("File locale creato")
 
-        # creazione dei dataset di dimensione 1/4, 1/2, 2x, 4x
+        # dataset scalati
         utils.generate_scaled_datasets_local(file_local)
-    else: 
-        print("file per analisi 3.1 in locale già presenti")
+
+    else:
+        print("File locale già presente")
+
+
+    # ----------------------------
+    # 2. LISTA FILE DA CARICARE SU HDFS
+    # ----------------------------
+    local_files = [
+        file_local,
+        file_local.replace(".csv", "_quarter.csv"),
+        file_local.replace(".csv", "_half.csv"),
+        file_local.replace(".csv", "_double.csv"),
+        file_local.replace(".csv", "_quadruple.csv"),
+    ]
+
+
+    # ----------------------------
+    # 3. UPLOAD SU HDFS SOLO SE NON ESISTONO
+    # ----------------------------
+    for local_file in local_files:
+
+        hdfs_path = f"{hdfs_input_path}/{Path(local_file).name}"
+
+        if not utils.hdfs_exists(hdfs_path):
+            print(f"Uploading {local_file} -> {hdfs_path}")
+            utils.hdfs_put(local_file, hdfs_path)
+        else:
+            print(f"{hdfs_path} già presente su HDFS")
+
+
         
-    # inizializzazione file su cluster
-    # if not exists_in_hdfs(spark, file_cluster):
-
-    #     print("file per analisi 3.1 su cluster non presente, si procede con la generazione di tutti i file")
-
-    #     df = spark_cluster.read.csv(original_file, header=True, inferSchema=True)        # analysis.analyze_dataframe(df)
-    #     # analysis.check_duplicates(df)
-    #     print("file csv originale letto correttamente")
-
-    #     # selezione delle colonne
-    #     df_base = df.select(cols_to_keep)
-
-    #     # pulizia colonne, parte decimale
-    #     for c in ["op_carrier_fl_num", "dep_delay", "arr_delay", "distance"]:
-    #         df_base = df_base.withColumn(c, split(col(c), "\.").getItem(0))
-
-    #     # creazione dei dataset di dimensione 1/4, 1/2, 2x, 4x
-    #     utils.generate_scaled_datasets_cluster(spark_cluster, file_cluster)
-    # else: 
-    #     print("file per analisi 3.1 in locale già presenti")
-
 # analisi in locale
-# def analize_local(spark):
+def analize_local(spark):
 
-#     # SPARK CORE locale
-#     # analisi file 1/4x
-#     timer_spark_3_1_quarter = spark_core_analysis.local_analysis_3_1(
-#         spark,
-#         "files/analisi_3_1_quarter.csv"
-#     )
-#     print("Analisi 3.1 SPARK CORE locale con grandezza 1/4x completata")
+    # SPARK CORE locale
+    # analisi file 1/4x
+    timer_spark_3_1_quarter = spark_core_analysis.analysis_3_1(
+        spark,
+        "/input/analisi_3_1_quarter.csv"
+    )
+    print("Analisi 3.1 SPARK CORE locale con grandezza 1/4x completata")
 
-#     # analisi file 1/2x
-#     timer_spark_3_1_half = spark_core_analysis.local_analysis_3_1(
-#         spark,
-#         "files/analisi_3_1_half.csv"
-#     )
-#     print("Analisi 3.1 SPARK CORE locale con grandezza 1/2x completata")
+    # analisi file 1/2x
+    timer_spark_3_1_half = spark_core_analysis.analysis_3_1(
+        spark,
+        "/input/analisi_3_1_half.csv"
+    )
+    print("Analisi 3.1 SPARK CORE locale con grandezza 1/2x completata")
 
-#     # analisi file 1x
-#     timer_spark_3_1_normal = spark_core_analysis.local_analysis_3_1(
-#         spark,
-#         file_local
-#     )
-#     print("Analisi 3.1 SPARK CORE locale completata")
+    # analisi file 1x
+    timer_spark_3_1_normal = spark_core_analysis.analysis_3_1(
+        spark,
+        "/input/analisi_3_1.csv"
+    )
+    print("Analisi 3.1 SPARK CORE locale completata")
 
-#     # analisi file 2x
-#     timer_spark_3_1_double = spark_core_analysis.local_analysis_3_1(
-#         spark,
-#         "files/analisi_3_1_double.csv"
-#     )
-#     print("Analisi 3.1 SPARK CORE locale con grandezza 2x completata")
+    # analisi file 2x
+    timer_spark_3_1_double = spark_core_analysis.analysis_3_1(
+        spark,
+        "/input/analisi_3_1_double.csv"
+    )
+    print("Analisi 3.1 SPARK CORE locale con grandezza 2x completata")
 
-#     # analisi file 4x
-#     timer_spark_3_1_quadruple = spark_core_analysis.local_analysis_3_1(
-#         spark,
-#         "files/analisi_3_1_quadruple.csv"
-#     )
-#     print("Analisi 3.1 SPARK CORE locale con grandezza 4x completata")
+    # analisi file 4x
+    timer_spark_3_1_quadruple = spark_core_analysis.analysis_3_1(
+        spark,
+        "/input/analisi_3_1_quadruple.csv"
+    )
+    print("Analisi 3.1 SPARK CORE locale con grandezza 4x completata")
 
-#     # plot dei tempi SPARK CORE locale
-#     plot.plot_analisi(timer_spark_3_1_quarter, timer_spark_3_1_half, timer_spark_3_1_normal, timer_spark_3_1_double, timer_spark_3_1_quadruple, "Analisi 3.1 Spark Core Locale", "output/spark_core_local_analysis_3_1.png")
+    # plot dei tempi SPARK CORE locale
+    plot.plot_analisi(timer_spark_3_1_quarter, timer_spark_3_1_half, timer_spark_3_1_normal, timer_spark_3_1_double, timer_spark_3_1_quadruple, "Analisi 3.1 Spark Core Locale", "output/spark_core_local_analysis_3_1.png")
 
-#     # SPARK SQL in LOCALE
-#     # file 1/4x
-#     timer_spark_sql_3_1_quarter = spark_sql_analysis.local_analysis_3_1(
-#         spark,
-#         "files/analisi_3_1_quarter.csv"
-#     )
-#     print("Analisi 3.1 SPARK SQL locale con grandezza 1/4x completata")
+    # SPARK SQL in LOCALE
+    # file 1/4x
+    timer_spark_sql_3_1_quarter = spark_sql_analysis.analysis_3_1(
+        spark,
+        "/input/analisi_3_1_quarter.csv"
+    )
+    print("Analisi 3.1 SPARK SQL locale con grandezza 1/4x completata")
 
-#     # file 1/2x
-#     timer_spark_sql_3_1_half = spark_sql_analysis.local_analysis_3_1(
-#         spark,
-#         "files/analisi_3_1_half.csv"
-#     )
-#     print("Analisi 3.1 SPARK SQL locale con grandezza 1/2x completata")
+    # file 1/2x
+    timer_spark_sql_3_1_half = spark_sql_analysis.analysis_3_1(
+        spark,
+        "/input/analisi_3_1_half.csv"
+    )
+    print("Analisi 3.1 SPARK SQL locale con grandezza 1/2x completata")
 
-#     # file 1x
-#     timer_spark_sql_3_1_normal = spark_sql_analysis.local_analysis_3_1(
-#         spark,
-#         file_local
-#     )
-#     print("Analisi 3.1 SPARK SQL locale completata")
+    # file 1x
+    timer_spark_sql_3_1_normal = spark_sql_analysis.analysis_3_1(
+        spark,
+        "/input/analisi_3_1.csv"
 
-#     # file 2x
-#     timer_spark_sql_3_1_double = spark_sql_analysis.local_analysis_3_1(
-#         spark,
-#         "files/analisi_3_1_double.csv"
-#     )
-#     print("Analisi 3.1 SPARK SQL locale con grandezza 2x completata")
+    )
+    print("Analisi 3.1 SPARK SQL locale completata")
 
-#     # file 4x
-#     timer_spark_sql_3_1_quadruple = spark_sql_analysis.local_analysis_3_1(
-#         spark,
-#         "files/analisi_3_1_quadruple.csv"
-#     )
-#     print("Analisi 3.1 SPARK SQL locale con grandezza 4x completata")
+    # file 2x
+    timer_spark_sql_3_1_double = spark_sql_analysis.analysis_3_1(
+        spark,
+        "/input/analisi_3_1_double.csv"
+    )
+    print("Analisi 3.1 SPARK SQL locale con grandezza 2x completata")
 
-#     # plot dei tempi SPARK SQL locale
-#     plot.plot_analisi(timer_spark_sql_3_1_quarter, timer_spark_sql_3_1_half, timer_spark_sql_3_1_normal, timer_spark_sql_3_1_double, timer_spark_sql_3_1_quadruple, "Analisi 3.1 Spark SQL Locale", "output/spark_sql_local_analysis_3_1.png")
+    # file 4x
+    timer_spark_sql_3_1_quadruple = spark_sql_analysis.analysis_3_1(
+        spark,
+        "/input/analisi_3_1_quadruple.csv"
+    )
+    print("Analisi 3.1 SPARK SQL locale con grandezza 4x completata")
+
+    # plot dei tempi SPARK SQL locale
+    plot.plot_analisi(timer_spark_sql_3_1_quarter, timer_spark_sql_3_1_half, timer_spark_sql_3_1_normal, timer_spark_sql_3_1_double, timer_spark_sql_3_1_quadruple, "Analisi 3.1 Spark SQL Locale", "output/spark_sql_local_analysis_3_1.png")
 
 
 ##############################################################################################################################################################################################################################################################################################
@@ -186,7 +183,7 @@ def initialize_files(original_file):
 #--------------------------------------------
 
 
-#   # HADOOP output log
+  # HADOOP output log
     log_path = "output/log_hadooop_3_1.txt"
 
     # elimina se esiste
@@ -215,34 +212,11 @@ def initialize_files(original_file):
 #   # file 4x
     timer_hadoop_3_1_quadruple = hadoop_executor("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py", "files/analisi_3_1_quadruple", None, "/input/analisi_3_1.csv", "/output/hadoop_3_1_output", log_path)
 
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 #   # plot dei tempi HADOOP 
     plot.plot_analisi(timer_hadoop_3_1_quarter, timer_hadoop_3_1_half, timer_hadoop_3_1, timer_hadoop_3_1_double, timer_hadoop_3_1_quadruple, "Analisi 3.1 Hadoop Map Reduce", "output/hadoop_analysis_3_1.png")
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
-    
-    
-
-#   # file 1/4x
-#    save_log(hadoop_3_1_quarter_output, timer_hadoop_3_1_quarter, log_path)
-
-#   # file 1/2x
-#    save_log(hadoop_3_1_half_output, timer_hadoop_3_1_half, log_path)
-
-#   # file 1x
-#    save_log(hadoop_3_1_output, timer_hadoop_3_1, log_path)
-
-#   # file 2x
-#    save_log(hadoop_3_1_double_output, timer_hadoop_3_1_double, log_path)
-
-#   # file 4x
-#    save_log(hadoop_3_1_quadruple_output, timer_hadoop_3_1_quadruple, log_path)
-
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -270,5 +244,5 @@ def initialize_files(original_file):
 
 
 # # analisi in cluster
-# def analize_cluster(spark, original_file):
-#     print("TODO")
+def analize_cluster(spark, original_file):
+    print("TODO")

@@ -1,5 +1,6 @@
 from pathlib import Path
 import pandas as pd
+import subprocess
 
 def append_to_log(title, content, logfile="output/log.txt"):
 
@@ -104,8 +105,6 @@ def generate_scaled_datasets_local(file_path):
 
     print(f"Creato: {quadruple_path}")
 
-
-
 # per ora li salva in partizioni, non so se mantenere così
 def generate_scaled_datasets_cluster(spark, file_path):
 
@@ -148,3 +147,29 @@ def generate_scaled_datasets_cluster(spark, file_path):
         .write.mode("overwrite").csv(str(quadruple_path), header=True)
 
     print(f"Creato: {quadruple_path}")
+
+# salva il file su hdfs al percorso specificato
+def hdfs_put(local_file, hdfs_path):
+    cmd = f"hdfs dfs -put {local_file} {hdfs_path}"
+
+    result = subprocess.run(
+        cmd,
+        shell=True,
+        text=True,
+        capture_output=True
+    )
+
+    if result.returncode != 0:
+        print(result.stderr)
+        raise RuntimeError("Upload failed")
+
+    print("Upload completed!")
+
+# verifica se un file è presente su hdfs
+def hdfs_exists(path):
+    result = subprocess.run(
+        f"hdfs dfs -test -e {path}",
+        shell=True
+    )
+
+    return result.returncode == 0
