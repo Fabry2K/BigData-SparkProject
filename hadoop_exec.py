@@ -119,6 +119,9 @@ def parse_hadoop_metrics(log_text):
 # funzione che esegue il job su HADOOP
 def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_path, input_path, output_path, log_output_file_path):
 
+    input_hdfs = f"/input/{os.path.basename(input_path)}"
+    output_hdfs = f"/output/{os.path.basename(output_path)}"
+
     mapper_hdfs = f"/tmp/{os.path.basename(mapper_file)}"
     reducer_hdfs = f"/tmp/{os.path.basename(reducer_file)}"
 
@@ -140,14 +143,14 @@ def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_pat
         hdfs_put(reducer_file, reducer_hdfs)
 
     # upload input (optional override)
-    if not hdfs_exists(input_path):
+    if not hdfs_exists(input_hdfs):
         print("Uploading input")
-        hdfs_put(input_file, input_path)
+        hdfs_put(input_file, input_hdfs)
 
     # remove old output
-    if hdfs_exists(output_path):
+    if hdfs_exists(output_hdfs):
         print("Removing old output")
-        hdfs_rm(output_path)
+        hdfs_rm(output_hdfs)
 
 
     # run job
@@ -159,8 +162,8 @@ def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_pat
     -file {reducer_file} \
     -mapper "python3 {os.path.basename(mapper_file)}" \
     -reducer "python3 {os.path.basename(reducer_file)}" \
-    -input {input_path} \
-    -output {output_path}
+    -input {input_hdfs} \
+    -output {output_hdfs}
     """
 
     start_time = time.time()

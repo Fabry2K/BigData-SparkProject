@@ -186,19 +186,19 @@ def analize_local(spark):
   # Esecuzione Hadoop MapReduce su un quarto, metà, intera, doppia e quadrupla dimensione del file di input
 
   # file 1/4x
-    timer_hadoop_3_3_quarter = hadoop_executor("hadoop_3_3/mapper.py", "hadoop_3_3/reducer.py", "files/analisi_3_3_quarter.csv", None, "/input/analisi_3_3.csv", "/output/hadoop_3_3_output", log_path)
+    timer_hadoop_3_3_quarter = hadoop_executor("hadoop_3_3/mapper.py", "hadoop_3_3/reducer.py", "files/analisi_3_3_quarter.csv", None, "analisi_3_3.csv", "hadoop_3_3_output", log_path)
     
 #   # file 1/2x
-    timer_hadoop_3_3_half = hadoop_executor("hadoop_3_3/mapper.py", "hadoop_3_3/reducer.py", "files/analisi_3_3_half.csv", None, "/input/analisi_3_3.csv", "/output/hadoop_3_3_output", log_path)
+    timer_hadoop_3_3_half = hadoop_executor("hadoop_3_3/mapper.py", "hadoop_3_3/reducer.py", "files/analisi_3_3_half.csv", None, "analisi_3_3.csv", "hadoop_3_3_output", log_path)
 
 #   # file 1x
-    timer_hadoop_3_3 = hadoop_executor("hadoop_3_3/mapper.py", "hadoop_3_3/reducer.py", "files/analisi_3_3.csv", "output/hadoop_3_3_output", "/input/analisi_3_3.csv", "/output/hadoop_3_3_output", log_path)
+    timer_hadoop_3_3 = hadoop_executor("hadoop_3_3/mapper.py", "hadoop_3_3/reducer.py", "files/analisi_3_3.csv", "output/hadoop_3_3_output", "analisi_3_3.csv", "hadoop_3_3_output", log_path)
 
 #   # file 2x
-    timer_hadoop_3_3_double = hadoop_executor("hadoop_3_3/mapper.py", "hadoop_3_3/reducer.py", "files/analisi_3_1_double.csv", None, "/input/analisi_3_3.csv", "/output/hadoop_3_3_output", log_path)
+    timer_hadoop_3_3_double = hadoop_executor("hadoop_3_3/mapper.py", "hadoop_3_3/reducer.py", "files/analisi_3_1_double.csv", None, "analisi_3_3.csv", "hadoop_3_3_output", log_path)
 
 #   # file 4x
-    timer_hadoop_3_3_quadruple = hadoop_executor("hadoop_3_3/mapper.py", "hadoop_3_3/reducer.py", "files/analisi_3_1_quadruple.csv", None, "/input/analisi_3_3.csv", "/output/hadoop_3_3_output", log_path)
+    timer_hadoop_3_3_quadruple = hadoop_executor("hadoop_3_3/mapper.py", "hadoop_3_3/reducer.py", "files/analisi_3_1_quadruple.csv", None, "analisi_3_3.csv", "hadoop_3_3_output", log_path)
 
 #   # plot dei tempi HADOOP 
     plot.plot_analisi(timer_hadoop_3_3_quarter, timer_hadoop_3_3_half, timer_hadoop_3_3, timer_hadoop_3_3_double, timer_hadoop_3_3_quadruple, "Analisi 3.3 Hadoop Map Reduce", "output/hadoop_analysis_3_3.png")
