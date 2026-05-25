@@ -1,6 +1,7 @@
 import sys
 import csv
 
+#!/usr/bin/env python3
 for line in sys.stdin:
 
     line = line.strip()
@@ -10,6 +11,9 @@ for line in sys.stdin:
 
     try:
         row = next(csv.reader([line]))
+
+        if len(row) < 9:
+            continue
 
         carrier = row[2]
         origin = row[4]

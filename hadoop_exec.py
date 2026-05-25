@@ -125,6 +125,7 @@ def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_pat
     mapper_hdfs = f"/tmp/{os.path.basename(mapper_file)}"
     reducer_hdfs = f"/tmp/{os.path.basename(reducer_file)}"
 
+    # generazione directory
     run_cmd("hdfs dfs -mkdir -p /input")
     run_cmd("hdfs dfs -mkdir -p /output")
     run_cmd("hdfs dfs -mkdir -p /tmp")
