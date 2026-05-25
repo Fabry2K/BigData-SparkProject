@@ -1,0 +1,15 @@
+
+======================================================================
+Execution timestamp: 2026-05-25 11:22:43.751293
+Execution time: 51.61 seconds
+
+HADOOP METRICS
+--------------------------------------------------------------------------------
+map_time: 934603776
+reduce_time: 0
+map_tasks: 46
+
+TOP 10 RESULTS
+----------------------------------------------------------------------
+packageJobJar: [] [/usr/lib/hadoop/hadoop-streaming-3.4.2-amzn-0.jar] /tmp/streamjob17741000905858622901.jar tmpDir=null
+

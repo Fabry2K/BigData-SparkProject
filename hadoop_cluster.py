@@ -1,6 +1,9 @@
 import paramiko
 import os
+import time
 from dotenv import load_dotenv
+
+from hadoop_exec import save_to_local_file, save_log, parse_hadoop_metrics
 
 
 #------------------------------
@@ -66,7 +69,7 @@ def connect_cluster():
 # HADOOP JOB
 #------------------------------
 
-def run_hadoop_job(ssh, mapper_path, reducer_path, input_path, output_path):
+def run_hadoop_job(ssh, mapper_path, reducer_path, input_path, output_path, log_output_file_path):
 
     print("Avvio Hadoop Streaming Job...")
 
@@ -75,15 +78,22 @@ def run_hadoop_job(ssh, mapper_path, reducer_path, input_path, output_path):
 
     command = f"""
     hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming.jar \
-    -file {mapper_path} -mapper {os.path.basename(mapper_path)} \
-    -file {reducer_path} -reducer {os.path.basename(reducer_path)} \
+    -files {mapper_path},{reducer_path} \
+    -mapper {os.path.basename(mapper_path)} \
+    -reducer {os.path.basename(reducer_path)} \
     -input {input_path} \
     -output {output_path}
     """
 
+    # execution time
+    start_time = time.time()
     exit_code, out, err = run_command(ssh, command)
+    end_time = time.time()
 
-    print(out)
+    print("Job completed!")
+
+    execution_time = end_time - start_time
+
     print(err)
 
     if exit_code == 0:
@@ -92,11 +102,28 @@ def run_hadoop_job(ssh, mapper_path, reducer_path, input_path, output_path):
         print("Errore durante il job Hadoop.")
 
 
+
+    # log completo Hadoop
+    full_log = err
+
+    # parsing metrics
+    metrics = parse_hadoop_metrics(full_log)
+
+    if metrics is None:
+        metrics = {}
+
+    save_to_local_file(out, output_path)
+    save_log(out, execution_time, metrics, log_output_file_path)
+
+
+    return execution_time
+
+
 #------------------------------
 # MAIN FUNCTION
 #------------------------------
 
-def cluster_executor(local_file, mapper_path, reducer_path, output_path):
+def cluster_executor(mapper_path, reducer_path, local_file, output_path, log_path):
 
     ssh = connect_cluster()
 
@@ -104,6 +131,9 @@ def cluster_executor(local_file, mapper_path, reducer_path, output_path):
 
     remote_file = f"/home/hadoop/{filename}"
     hdfs_file = f"/input/{filename}"
+
+    mapper_remote = f"/home/hadoop/{os.path.basename(mapper_path)}"
+    reducer_remote = f"/home/hadoop/{os.path.basename(reducer_path)}"
 
 
     # -------------------------
@@ -122,6 +152,19 @@ def cluster_executor(local_file, mapper_path, reducer_path, output_path):
         print("Upload completato.")
 
 
+    # >>>>>>> FIX AGGIUNTO QUI <<<<<<<<
+
+    if not file_exists_remote(ssh, mapper_remote):
+        sftp = ssh.open_sftp()
+        sftp.put(mapper_path, mapper_remote)
+        sftp.close()
+
+    if not file_exists_remote(ssh, reducer_remote):
+        sftp = ssh.open_sftp()
+        sftp.put(reducer_path, reducer_remote)
+        sftp.close()
+
+
     # -------------------------
     # 2. HDFS SETUP
     # -------------------------
@@ -134,9 +177,7 @@ def cluster_executor(local_file, mapper_path, reducer_path, output_path):
     # 3. HDFS FILE
     # -------------------------
 
-    if hdfs_exists(ssh, hdfs_file):
-        print("File già presente su HDFS.")
-    else:
+    if not hdfs_exists(ssh, hdfs_file):
         print("Carico file su HDFS...")
 
         run_command(
@@ -149,13 +190,15 @@ def cluster_executor(local_file, mapper_path, reducer_path, output_path):
     # 4. RUN MAPREDUCE JOB
     # -------------------------
 
-    run_hadoop_job(
+    execution_time = run_hadoop_job(
         ssh,
-        mapper_path=mapper_path,
-        reducer_path=reducer_path,
+        mapper_path=mapper_remote,
+        reducer_path=reducer_remote,
         input_path=hdfs_file,
-        output_path=output_path
+        output_path=output_path,
+        log_output_file_path=log_path
     )
 
-
     ssh.close()
+
+    return execution_time
