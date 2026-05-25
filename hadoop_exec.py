@@ -3,6 +3,7 @@ import re
 import time
 from datetime import datetime
 import subprocess
+from dotenv import load_dotenv
 
 
 # ----------------------------
@@ -157,8 +158,12 @@ def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_pat
     # run job
     print("Running Hadoop job...")
 
+    # caricamento del path per il jar di Hadoop
+    load_dotenv()
+    path_hadoop_jar = os.getenv("path_hadoop_jar")
+
     cmd = f"""
-    hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-3.4.1.jar \
+    hadoop jar {path_hadoop_jar} \
     -file {mapper_file} \
     -file {reducer_file} \
     -mapper "python3 {os.path.basename(mapper_file)}" \
