@@ -33,7 +33,6 @@ def hdfs_rm(path):
 
 
 
-# funzione che estrae l'output dall'hdfs
 def hdfs_cat(output_path):
     cmd = f"hdfs dfs -cat {output_path}/part-*"
     result = subprocess.run(cmd, shell=True, text=True, capture_output=True)
@@ -42,6 +41,7 @@ def hdfs_cat(output_path):
         raise RuntimeError(result.stderr)
 
     return result.stdout
+
 
 # funzione che salva il file di output in una directory locale
 def save_to_local_file(data, output_file):
@@ -187,7 +187,7 @@ def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_pat
     metrics = parse_hadoop_metrics(full_log)
 
     # leggere output da HDFS
-    output_data = hdfs_cat(output_path)
+    output_data = hdfs_cat(output_hdfs)
 
     # salvare in locale
     save_to_local_file(output_data, local_output_file_path)

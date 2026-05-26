@@ -84,91 +84,91 @@ def initialize_files(original_file, file_local, hdfs_input_path):
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # analisi con spark core in locale
-def analyze_with_spark_core(spark):
+# def analyze_with_spark_core(spark):
 
-    # SPARK CORE locale
-    # analisi file 1/4x
-    timer_spark_3_1_quarter = spark_core_analysis.analysis_3_1(
-        spark,
-        "/input/analisi_3_1_quarter.csv"
-    )
-    print("Analisi 3.1 SPARK CORE locale con grandezza 1/4x completata")
+#     # SPARK CORE locale
+#     # analisi file 1/4x
+#     timer_spark_3_1_quarter = spark_core_analysis.analysis_3_1(
+#         spark,
+#         "/input/analisi_3_1_quarter.csv"
+#     )
+#     print("Analisi 3.1 SPARK CORE locale con grandezza 1/4x completata")
 
-    # analisi file 1/2x
-    timer_spark_3_1_half = spark_core_analysis.analysis_3_1(
-        spark,
-        "/input/analisi_3_1_half.csv"
-    )
-    print("Analisi 3.1 SPARK CORE locale con grandezza 1/2x completata")
+#     # analisi file 1/2x
+#     timer_spark_3_1_half = spark_core_analysis.analysis_3_1(
+#         spark,
+#         "/input/analisi_3_1_half.csv"
+#     )
+#     print("Analisi 3.1 SPARK CORE locale con grandezza 1/2x completata")
 
-    # analisi file 1x
-    timer_spark_3_1_normal = spark_core_analysis.analysis_3_1(
-        spark,
-        "/input/analisi_3_1.csv"
-    )
-    print("Analisi 3.1 SPARK CORE locale completata")
+#     # analisi file 1x
+#     timer_spark_3_1_normal = spark_core_analysis.analysis_3_1(
+#         spark,
+#         "/input/analisi_3_1.csv"
+#     )
+#     print("Analisi 3.1 SPARK CORE locale completata")
 
-    # analisi file 2x
-    timer_spark_3_1_double = spark_core_analysis.analysis_3_1(
-        spark,
-        "/input/analisi_3_1_double.csv"
-    )
-    print("Analisi 3.1 SPARK CORE locale con grandezza 2x completata")
+#     # analisi file 2x
+#     timer_spark_3_1_double = spark_core_analysis.analysis_3_1(
+#         spark,
+#         "/input/analisi_3_1_double.csv"
+#     )
+#     print("Analisi 3.1 SPARK CORE locale con grandezza 2x completata")
 
-    # analisi file 4x
-    timer_spark_3_1_quadruple = spark_core_analysis.analysis_3_1(
-        spark,
-        "/input/analisi_3_1_quadruple.csv"
-    )
-    print("Analisi 3.1 SPARK CORE locale con grandezza 4x completata")
+#     # analisi file 4x
+#     timer_spark_3_1_quadruple = spark_core_analysis.analysis_3_1(
+#         spark,
+#         "/input/analisi_3_1_quadruple.csv"
+#     )
+#     print("Analisi 3.1 SPARK CORE locale con grandezza 4x completata")
 
-    # plot dei tempi SPARK CORE locale
-    plot.plot_analisi(timer_spark_3_1_quarter, timer_spark_3_1_half, timer_spark_3_1_normal, timer_spark_3_1_double, timer_spark_3_1_quadruple, "Analisi 3.1 Spark Core Locale", "output/spark_core_local_analysis_3_1.png")
+#     # plot dei tempi SPARK CORE locale
+#     plot.plot_analisi(timer_spark_3_1_quarter, timer_spark_3_1_half, timer_spark_3_1_normal, timer_spark_3_1_double, timer_spark_3_1_quadruple, "Analisi 3.1 Spark Core Locale", "output/spark_core_local_analysis_3_1.png")
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # analisi con spark sql in locale
-def analyze_with_spark_sql(spark):
+# def analyze_with_spark_sql(spark):
 
-    # SPARK SQL in LOCALE
-    # file 1/4x
-    timer_spark_sql_3_1_quarter = spark_sql_analysis.analysis_3_1(
-        spark,
-        "/input/analisi_3_1_quarter.csv"
-    )
-    print("Analisi 3.1 SPARK SQL locale con grandezza 1/4x completata")
+#     # SPARK SQL in LOCALE
+#     # file 1/4x
+#     timer_spark_sql_3_1_quarter = spark_sql_analysis.analysis_3_1(
+#         spark,
+#         "/input/analisi_3_1_quarter.csv"
+#     )
+#     print("Analisi 3.1 SPARK SQL locale con grandezza 1/4x completata")
 
-    # file 1/2x
-    timer_spark_sql_3_1_half = spark_sql_analysis.analysis_3_1(
-        spark,
-        "/input/analisi_3_1_half.csv"
-    )
-    print("Analisi 3.1 SPARK SQL locale con grandezza 1/2x completata")
+#     # file 1/2x
+#     timer_spark_sql_3_1_half = spark_sql_analysis.analysis_3_1(
+#         spark,
+#         "/input/analisi_3_1_half.csv"
+#     )
+#     print("Analisi 3.1 SPARK SQL locale con grandezza 1/2x completata")
 
-    # file 1x
-    timer_spark_sql_3_1_normal = spark_sql_analysis.analysis_3_1(
-        spark,
-        "/input/analisi_3_1.csv"
+#     # file 1x
+#     timer_spark_sql_3_1_normal = spark_sql_analysis.analysis_3_1(
+#         spark,
+#         "/input/analisi_3_1.csv"
 
-    )
-    print("Analisi 3.1 SPARK SQL locale completata")
+#     )
+#     print("Analisi 3.1 SPARK SQL locale completata")
 
-    # file 2x
-    timer_spark_sql_3_1_double = spark_sql_analysis.analysis_3_1(
-        spark,
-        "/input/analisi_3_1_double.csv"
-    )
-    print("Analisi 3.1 SPARK SQL locale con grandezza 2x completata")
+#     # file 2x
+#     timer_spark_sql_3_1_double = spark_sql_analysis.analysis_3_1(
+#         spark,
+#         "/input/analisi_3_1_double.csv"
+#     )
+#     print("Analisi 3.1 SPARK SQL locale con grandezza 2x completata")
 
-    # file 4x
-    timer_spark_sql_3_1_quadruple = spark_sql_analysis.analysis_3_1(
-        spark,
-        "/input/analisi_3_1_quadruple.csv"
-    )
-    print("Analisi 3.1 SPARK SQL locale con grandezza 4x completata")
+#     # file 4x
+#     timer_spark_sql_3_1_quadruple = spark_sql_analysis.analysis_3_1(
+#         spark,
+#         "/input/analisi_3_1_quadruple.csv"
+#     )
+#     print("Analisi 3.1 SPARK SQL locale con grandezza 4x completata")
 
-    # plot dei tempi SPARK SQL locale
-    plot.plot_analisi(timer_spark_sql_3_1_quarter, timer_spark_sql_3_1_half, timer_spark_sql_3_1_normal, timer_spark_sql_3_1_double, timer_spark_sql_3_1_quadruple, "Analisi 3.1 Spark SQL Locale", "output/spark_sql_local_analysis_3_1.png")
+#     # plot dei tempi SPARK SQL locale
+#     plot.plot_analisi(timer_spark_sql_3_1_quarter, timer_spark_sql_3_1_half, timer_spark_sql_3_1_normal, timer_spark_sql_3_1_double, timer_spark_sql_3_1_quadruple, "Analisi 3.1 Spark SQL Locale", "output/spark_sql_local_analysis_3_1.png")
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -244,12 +244,12 @@ def hadoop_analysis():
 
         
 # # analisi in locale
-def analize(spark):
+# def analize(spark):
 
-    analyze_with_spark_core(spark)
+#     analyze_with_spark_core(spark)
 
-    analyze_with_spark_sql(spark)
+#     analyze_with_spark_sql(spark)
 
-    # hive_analysis()
+#     # hive_analysis()
 
-    hadoop_analysis()
+#     hadoop_analysis()
