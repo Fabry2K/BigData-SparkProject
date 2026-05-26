@@ -144,17 +144,6 @@ def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_pat
         print("Uploading reducer")
         hdfs_put(reducer_file, reducer_hdfs)
 
-    # upload input (optional override)
-    if not hdfs_exists(input_hdfs):
-        print("Uploading input")
-        hdfs_put(input_file, input_hdfs)
-
-    # remove old output
-    if hdfs_exists(output_hdfs):
-        print("Removing old output")
-        hdfs_rm(output_hdfs)
-
-
     # run job
     print("Running Hadoop job...")
 
