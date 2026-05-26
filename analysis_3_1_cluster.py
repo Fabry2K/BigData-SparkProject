@@ -1,6 +1,38 @@
 from hadoop_cluster import cluster_executor
 import os
 import plot
+import boto3
+from dotenv import load_dotenv
+
+# collegamento al cluster AWS academy
+s3 = boto3.client("s3")
+
+
+load_dotenv()
+
+BUCKET = os.getenv("BUCKET")
+CLUSTER = os.getenv("CLUSTER_ID")
+
+
+def upload_project(input_file, mapper_file, reducer_file):
+
+    # INPUT
+    input_key = f"{CLUSTER}/input/{input_file.split('/')[-1]}"
+    s3.upload_file(input_file, BUCKET, input_key)
+
+    # MAPPER
+    mapper_key = f"{CLUSTER}/code/mapper.py"
+    s3.upload_file(mapper_file, BUCKET, mapper_key)
+
+    # REDUCER
+    reducer_key = f"{CLUSTER}/code/reducer.py"
+    s3.upload_file(reducer_file, BUCKET, reducer_key)
+
+    print("Upload completato")
+
+    return input_key, mapper_key, reducer_key
+
+
 
 def analysis_3_1():
     # HADOOP AWS cluster output log
