@@ -28,8 +28,8 @@ def s3_exists(bucket, key):
 # upload mapper e reducer nel bucket AWS 
 def upload_mapper_reducer(mapper_file, reducer_file):
 
-    mapper_key = f"{CLUSTER}/code/analisi_3_1/mapper.py"
-    reducer_key = f"{CLUSTER}/code/analisi_3_1/reducer.py"
+    mapper_key = f"{CLUSTER}/code/analisi_3_3/mapper.py"
+    reducer_key = f"{CLUSTER}/code/analisi_3_3/reducer.py"
 
     if s3_exists(BUCKET, mapper_key):
         print(f"[SKIP] Mapper già esistente: {mapper_key}")
@@ -63,14 +63,14 @@ def upload_input(input_file):
 
 def upload_project():
 
-    mapper_key, reducer_key = upload_mapper_reducer("hadoop_3_1/mapper.py", "hadoop_3_1/reducer.py")
+    mapper_key, reducer_key = upload_mapper_reducer("hadoop_3_3/mapper.py", "hadoop_3_3/reducer.py")
 
     inputs = {
-        "quarter": upload_input("files/analisi_3_1_quarter.csv"),
-        "half": upload_input("files/analisi_3_1_half.csv"),
-        "normal": upload_input("files/analisi_3_1.csv"),
-        "double": upload_input("files/analisi_3_1_double.csv"),
-        "quadruple": upload_input("files/analisi_3_1_quadruple.csv")
+        "quarter": upload_input("files/analisi_3_3_quarter.csv"),
+        "half": upload_input("files/analisi_3_3_half.csv"),
+        "normal": upload_input("files/analisi_3_3.csv"),
+        "double": upload_input("files/analisi_3_3_double.csv"),
+        "quadruple": upload_input("files/analisi_3_3_quadruple.csv")
     }
 
     return mapper_key, reducer_key, inputs
@@ -86,7 +86,7 @@ def analyze():
 
     for name, input_key in inputs.items():
 
-        output_key = f"{CLUSTER}/output/{name}/job_3_1"
+        output_key = f"{CLUSTER}/output/{name}/job_3_3"
 
         cluster_executor(
             CLUSTER,

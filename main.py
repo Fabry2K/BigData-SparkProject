@@ -1,5 +1,7 @@
 import analysis_3_1_local
 import analysis_3_3_local
+import analysis_3_1_cluster
+import analysis_3_3_cluster
 from pyspark.sql import SparkSession
 
 original_file = "files/flight_data_2024.csv"
@@ -23,17 +25,17 @@ file_cluster_3_3 = "/input"
 
 ###### Analisi 3.1: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####
 
-analysis_3_1_local.initialize_files(original_file, file_local_3_1, file_cluster_3_1)      # inizializza i file per le analisi, sia per locale che per cluster
-#analysis_3_1_local.hadoop_analysis()  # analisi 3.1 locale
-analysis_3_1_local.analize(spark)  # analisi 3.1 locale
+# analysis_3_1_local.initialize_files(original_file, file_local_3_1, file_cluster_3_1)      # inizializza i file per le analisi, sia per locale che per cluster
+# analysis_3_1_local.analize(spark)  # analisi 3.1 locale
 
-
+analysis_3_1_cluster.analyze()
 
 ###### Analisi 3.3: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####
 
-analysis_3_3_local.initialize_files(original_file, file_local_3_3, file_cluster_3_3)      # inizializza i file per le analisi, sia per locale che per cluster
-analysis_3_3_local.analize(spark)  # analisi 3.3 locale
+# analysis_3_3_local.initialize_files(original_file, file_local_3_3, file_cluster_3_3)      # inizializza i file per le analisi, sia per locale che per cluster
+# analysis_3_3_local.analize(spark)  # analisi 3.3 locale
 
+analysis_3_3_cluster.analyze()
 
 # Chiusura sessioni Spark
 # spark.stop()
