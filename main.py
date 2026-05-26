@@ -35,7 +35,7 @@ analysis_3_1_cluster.analyze()
 # analysis_3_3_local.initialize_files(original_file, file_local_3_3, file_cluster_3_3)      # inizializza i file per le analisi, sia per locale che per cluster
 # analysis_3_3_local.analize(spark)  # analisi 3.3 locale
 
-# analysis_3_3_cluster.analyze()
+analysis_3_3_cluster.analyze()
 
 # Chiusura sessioni Spark
 # spark.stop()
