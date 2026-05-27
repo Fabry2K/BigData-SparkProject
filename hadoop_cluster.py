@@ -16,6 +16,9 @@ def cluster_executor(cluster_id, bucket, input_key, output_key, mapper_key, redu
                     "Args": [
                         "hadoop-streaming",
 
+                        "-D",
+                        "mapreduce.job.reduces=1",
+
                         "-files",
                         f"s3://{bucket}/{mapper_key},s3://{bucket}/{reducer_key}",
 
