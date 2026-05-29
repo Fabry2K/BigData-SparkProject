@@ -1,6 +1,7 @@
 from pathlib import Path
 import pandas as pd
 import subprocess
+import os
 
 def append_to_log(title, content, logfile="output/log.txt"):
 
@@ -173,3 +174,14 @@ def hdfs_exists(path):
     )
 
     return result.returncode == 0
+
+
+
+# se un path esiste lo rimuove e ricrea, se non esiste lo crea
+def path_existence(path):
+    if os.path.exists(path):
+        os.remove(path)
+
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+
+    return path

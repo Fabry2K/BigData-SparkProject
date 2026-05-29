@@ -1,12 +1,13 @@
 from hadoop_cluster import cluster_executor
 from hadoop_exec import save_log, parse_hadoop_metrics
-import time
+from utils import path_existence
 import os
 import plot
 import boto3
 import gzip
 from dotenv import load_dotenv
 from botocore.exceptions import ClientError
+
 
 s3 = boto3.client("s3")
 
@@ -27,7 +28,7 @@ def s3_exists(bucket, key):
 
 
 # ----------------------------
-# DELETE S3 OUTPUT (NEW)
+# DELETE S3 OUTPUT 
 # ----------------------------
 
 def delete_s3_prefix(prefix):
@@ -60,23 +61,20 @@ def delete_s3_prefix(prefix):
         )
 
 
-# HADOOP output log
-log_path = "output/cluster/hadoop_3_1/hadoop_logs.txt"
-
-if os.path.exists(log_path):
-    os.remove(log_path)
-
-os.makedirs(os.path.dirname(log_path), exist_ok=True)
-
+##########################################################################################################################################################################################################################################################
 
 # ----------------------------
 # UPLOAD FUNCTIONS
+#-----------------------------
+# - Mapper, reducer
+# - Input
 # ----------------------------
 
-def upload_mapper_reducer(mapper_file, reducer_file):
+# mapper e reducer
+def upload_mapper_reducer(analisi, mapper_file, reducer_file):
 
-    mapper_key = f"{CLUSTER}/code/analisi_3_1/mapper.py"
-    reducer_key = f"{CLUSTER}/code/analisi_3_1/reducer.py"
+    mapper_key = f"{CLUSTER}/code/{analisi}/mapper.py"
+    reducer_key = f"{CLUSTER}/code/{analisi}/reducer.py"
 
     if not s3_exists(BUCKET, mapper_key):
         print("UPLOADING MAPPER")
@@ -88,7 +86,7 @@ def upload_mapper_reducer(mapper_file, reducer_file):
 
     return mapper_key, reducer_key
 
-
+# input
 def upload_input(input_file):
 
     input_key = f"{CLUSTER}/input/{os.path.basename(input_file)}"
@@ -100,22 +98,23 @@ def upload_input(input_file):
     return input_key
 
 
-def upload_project():
 
-    mapper_key, reducer_key = upload_mapper_reducer(
-        "hadoop_3_1/mapper.py",
-        "hadoop_3_1/reducer.py"
-    )
+
+def upload_project(analisi, mapper, reducer):
+
+    mapper_key, reducer_key = upload_mapper_reducer(analisi, mapper, reducer)
 
     inputs = {
-        "quarter": upload_input("files/analisi_3_1_quarter.csv"),
-        "half": upload_input("files/analisi_3_1_half.csv"),
-        "normal": upload_input("files/analisi_3_1.csv"),
-        "double": upload_input("files/analisi_3_1_double.csv"),
-        "quadruple": upload_input("files/analisi_3_1_quadruple.csv")
+        "quarter": upload_input(f"files/{analisi}_quarter.csv"),
+        "half": upload_input(f"files/{analisi}_half.csv"),
+        "normal": upload_input(f"files/{analisi}.csv"),
+        "double": upload_input(f"files/{analisi}_double.csv"),
+        "quadruple": upload_input(f"files/{analisi}_quadruple.csv")
     }
 
     return mapper_key, reducer_key, inputs
+
+##########################################################################################################################################################################################################################################################
 
 
 # ----------------------------
@@ -154,18 +153,22 @@ def get_logs(step_id):
     return stdout, stderr
 
 
+##########################################################################################################################################################################################################################################################
+###########     HADOOP     ################################################################################################################################################################################
+##########################################################################################################################################################################################################################################################
+
 # ----------------------------
 # ANALYSIS
 # ----------------------------
 
-def analyze_with_hadoop(inputs, mapper_key, reducer_key, log_output_local_path):
+def analyze_with_hadoop(inputs, analisi, mapper_key, reducer_key, log_output_local_path):
 
     results = {}
     execution_time = {}
 
     for name, input_key in inputs.items():
 
-        output_key = f"{CLUSTER}/output/{name}"
+        output_key = f"{CLUSTER}/output/{analisi}/{name}"
 
 
         print(f"\n=== START JOB: {name} ===")
@@ -229,22 +232,26 @@ def analyze_with_hadoop(inputs, mapper_key, reducer_key, log_output_local_path):
     return results, execution_time
 
 
+##########################################################################################################################################################################################################################################################
+
+
 # ----------------------------
 # MAIN
 # ----------------------------
 
-def analyze():
+def analyze(analisi, mapper, reducer, output_path):
 
-    mapper_key, reducer_key, inputs = upload_project()
+    mapper_key, reducer_key, inputs = upload_project(analisi, mapper, reducer)
 
     # CLEAN OLD OUTPUT
     delete_s3_prefix(f"{CLUSTER}/output/")
 
     results, execution_time = analyze_with_hadoop(
         inputs,
+        analisi,
         mapper_key,
         reducer_key,
-        "output/cluster/hadoop_3_1/hadoop_logs.txt"
+        path_existence(f"{output_path}/logs.txt")
     )
 
     plot.plot_analisi(
@@ -253,9 +260,16 @@ def analyze():
         execution_time.get("normal"),
         execution_time.get("double"),
         execution_time.get("quadruple"),
-        "Analisi 3.1 Hadoop Map Reduce",
-        "output/cluster/hadoop_3_1/hadoop_analysis.png"
+        "Runtime Execution Hadoop Map Reduce",
+        path_existence(f"{output_path}/hadoop_analysis.png")
     )
 
 
-analyze()
+analyze("analisi_3_1", "hadoop_3_1/mapper.py",  "hadoop_3_1/reducer.py", "output/cluster/hadoop_3_1")
+
+###### Analisi 3.3: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####
+
+# analysis_3_3_local.initialize_files(original_file, file_local_3_3, file_cluster_3_3)      # inizializza i file per le analisi, sia per locale che per cluster
+# analysis_3_3_local.analize(spark)  # analisi 3.3 locale
+
+analyze("analisi_3_3", "hadoop_3_3/mapper.py",  "hadoop_3_3/reducer.py", "output/cluster/hadoop_3_3")
