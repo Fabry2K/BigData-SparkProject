@@ -263,13 +263,3 @@ def analyze(analisi, mapper, reducer, output_path):
         "Runtime Execution Hadoop Map Reduce",
         path_existence(f"{output_path}/hadoop_analysis.png")
     )
-
-
-analyze("analisi_3_1", "hadoop_3_1/mapper.py",  "hadoop_3_1/reducer.py", "output/cluster/hadoop_3_1")
-
-###### Analisi 3.3: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####
-
-# analysis_3_3_local.initialize_files(original_file, file_local_3_3, file_cluster_3_3)      # inizializza i file per le analisi, sia per locale che per cluster
-# analysis_3_3_local.analize(spark)  # analisi 3.3 locale
-
-analyze("analisi_3_3", "hadoop_3_3/mapper.py",  "hadoop_3_3/reducer.py", "output/cluster/hadoop_3_3")
