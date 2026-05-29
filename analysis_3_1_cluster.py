@@ -26,15 +26,48 @@ def s3_exists(bucket, key):
         raise
 
 
+# ----------------------------
+# DELETE S3 OUTPUT (NEW)
+# ----------------------------
+
+def delete_s3_prefix(prefix):
+
+    paginator = s3.get_paginator("list_objects_v2")
+
+    objects_to_delete = []
+
+    for page in paginator.paginate(Bucket=BUCKET, Prefix=prefix):
+
+        if "Contents" not in page:
+            continue
+
+        for obj in page["Contents"]:
+            objects_to_delete.append({"Key": obj["Key"]})
+
+    if not objects_to_delete:
+        print(f"NO OBJECTS in {prefix}")
+        return
+
+    print(f"DELETING {len(objects_to_delete)} OBJECTS from {prefix}")
+
+    for i in range(0, len(objects_to_delete), 1000):
+
+        batch = objects_to_delete[i:i+1000]
+
+        s3.delete_objects(
+            Bucket=BUCKET,
+            Delete={"Objects": batch}
+        )
+
+
 # HADOOP output log
 log_path = "output/cluster/hadoop_3_1/hadoop_logs.txt"
 
-# elimina se esiste
 if os.path.exists(log_path):
     os.remove(log_path)
 
-# ricrea il file (vuoto)
 os.makedirs(os.path.dirname(log_path), exist_ok=True)
+
 
 # ----------------------------
 # UPLOAD FUNCTIONS
@@ -46,9 +79,11 @@ def upload_mapper_reducer(mapper_file, reducer_file):
     reducer_key = f"{CLUSTER}/code/analisi_3_1/reducer.py"
 
     if not s3_exists(BUCKET, mapper_key):
+        print("UPLOADING MAPPER")
         s3.upload_file(mapper_file, BUCKET, mapper_key)
 
     if not s3_exists(BUCKET, reducer_key):
+        print("UPLOADING REDUCER")
         s3.upload_file(reducer_file, BUCKET, reducer_key)
 
     return mapper_key, reducer_key
@@ -59,6 +94,7 @@ def upload_input(input_file):
     input_key = f"{CLUSTER}/input/{os.path.basename(input_file)}"
 
     if not s3_exists(BUCKET, input_key):
+        print(f"UPLOADING {input_file}")
         s3.upload_file(input_file, BUCKET, input_key)
 
     return input_key
@@ -83,32 +119,36 @@ def upload_project():
 
 
 # ----------------------------
-# LOGS EMR (ROBUST VERSION)
+# LOGS EMR
 # ----------------------------
 
 def get_logs(step_id):
 
-    stdout, stderr = "", ""
+    stdout = ""
+    stderr = ""
 
-    prefix = f"emr-logs/{CLUSTER}/"
+    base_prefix = f"emr-logs/{CLUSTER}/steps/{step_id}/"
 
-    response = s3.list_objects_v2(Bucket=BUCKET, Prefix=prefix)
+    for file_name in ["stdout", "stderr"]:
 
-    for obj in response.get("Contents", []):
-
-        key = obj["Key"]
+        key = f"{base_prefix}{file_name}.gz"
 
         try:
             file_obj = s3.get_object(Bucket=BUCKET, Key=key)
-            content = gzip.decompress(file_obj["Body"].read()).decode("utf-8")
+            raw = file_obj["Body"].read()
 
-            if "stdout" in key:
+            try:
+                content = gzip.decompress(raw).decode("utf-8")
+            except:
+                content = raw.decode("utf-8")
+
+            if file_name == "stdout":
                 stdout = content
-
-            if "stderr" in key:
+            else:
                 stderr = content
 
         except Exception:
+            # file potrebbe non esistere
             continue
 
     return stdout, stderr
@@ -125,37 +165,49 @@ def analyze_with_hadoop(inputs, mapper_key, reducer_key, log_output_local_path):
 
     for name, input_key in inputs.items():
 
-        output_key = f"{CLUSTER}/output/{name}/job_3_1"
+        output_key = f"{CLUSTER}/output/{name}"
 
-        start_time = time.time()
 
-        # RUN JOB
-        step_id = cluster_executor(
+        print(f"\n=== START JOB: {name} ===")
+
+        step_id, execution_time = cluster_executor(
             CLUSTER,
             BUCKET,
+            name,
             input_key,
             output_key,
             mapper_key,
-            reducer_key
+            reducer_key,
+            results,
+            execution_time
         )
 
         # -------------------------
-        # READ OUTPUT
+        # READ OUTPUT (PREVIEW)
         # -------------------------
         response = s3.list_objects_v2(
             Bucket=BUCKET,
             Prefix=output_key
         )
 
-        output_data = ""
+        output_data = []
 
         for obj in response.get("Contents", []):
             if "part-" in obj["Key"]:
-                file_obj = s3.get_object(Bucket=BUCKET, Key=obj["Key"])
-                output_data += file_obj["Body"].read().decode("utf-8")
 
-        end_time = time.time()
-        execution_time[name] = end_time - start_time
+                file_obj = s3.get_object(
+                    Bucket=BUCKET,
+                    Key=obj["Key"]
+                )
+
+                content = file_obj["Body"].read().decode("utf-8")
+
+                output_data.extend(content.splitlines())
+
+                if len(output_data) >= 10:
+                    break
+
+        output_data = output_data[:10]
 
         # -------------------------
         # LOGS + METRICS
@@ -166,7 +218,7 @@ def analyze_with_hadoop(inputs, mapper_key, reducer_key, log_output_local_path):
         metrics = parse_hadoop_metrics(full_log)
 
         save_log(
-            output_data,
+            "\n".join(output_data),
             execution_time[name],
             metrics,
             log_output_local_path
@@ -184,6 +236,9 @@ def analyze_with_hadoop(inputs, mapper_key, reducer_key, log_output_local_path):
 def analyze():
 
     mapper_key, reducer_key, inputs = upload_project()
+
+    # CLEAN OLD OUTPUT
+    delete_s3_prefix(f"{CLUSTER}/output/")
 
     results, execution_time = analyze_with_hadoop(
         inputs,
