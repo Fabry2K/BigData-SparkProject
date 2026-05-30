@@ -161,7 +161,7 @@ def get_logs(step_id):
 # ANALYSIS
 # ----------------------------
 
-def analyze_with_hadoop(inputs, analisi, mapper_key, reducer_key, log_output_local_path):
+def analyze_with_hadoop(inputs, analisi, mapper_key, reducer_key, output_path, log_output_local_path):
 
     results = {}
     execution_time = {}
@@ -229,6 +229,16 @@ def analyze_with_hadoop(inputs, analisi, mapper_key, reducer_key, log_output_loc
 
         results[name] = output_data
 
+        plot.plot_analisi(
+        execution_time.get("quarter"),
+        execution_time.get("half"),
+        execution_time.get("normal"),
+        execution_time.get("double"),
+        execution_time.get("quadruple"),
+        "Runtime Execution Hadoop Map Reduce",
+        path_existence(f"{output_path}/hadoop_analysis.png")
+    )
+
     return results, execution_time
 
 
@@ -246,20 +256,16 @@ def analyze(analisi, mapper, reducer, output_path):
     # CLEAN OLD OUTPUT
     delete_s3_prefix(f"{CLUSTER}/output/")
 
-    results, execution_time = analyze_with_hadoop(
+    # analisi con SPARK CORE su cluster AWS
+
+    # analisi con SPARK SQL su cluster AWS
+
+    # analisi con HADOOP su cluster AWS
+    analyze_with_hadoop(
         inputs,
         analisi,
         mapper_key,
         reducer_key,
+        output_path,
         path_existence(f"{output_path}/logs.txt")
-    )
-
-    plot.plot_analisi(
-        execution_time.get("quarter"),
-        execution_time.get("half"),
-        execution_time.get("normal"),
-        execution_time.get("double"),
-        execution_time.get("quadruple"),
-        "Runtime Execution Hadoop Map Reduce",
-        path_existence(f"{output_path}/hadoop_analysis.png")
     )

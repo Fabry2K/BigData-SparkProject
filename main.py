@@ -16,10 +16,10 @@ file_cluster_3_3 = "/input"
 # open("output/log.txt", "w").close()
 
 # # creazione Sessione Spark per analisi in locale, una volta per tutta l'esecuzione
-# spark = SparkSession.builder \
-#     .appName("FlightAnalysis") \
-#     .master("local[*]") \
-#     .getOrCreate()
+spark = SparkSession.builder \
+    .appName("FlightAnalysis") \
+    .master("local[*]") \
+    .getOrCreate()
 
 
 ###### Analisi 3.1: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####
@@ -34,7 +34,7 @@ cluster.analyze("analisi_3_1", "hadoop_3_1/mapper.py",  "hadoop_3_1/reducer.py",
 # analysis_3_3_local.initialize_files(original_file, file_local_3_3, file_cluster_3_3)      # inizializza i file per le analisi, sia per locale che per cluster
 # analysis_3_3_local.analize(spark)  # analisi 3.3 locale
 
-cluster.analyze("analisi_3_3", "hadoop_3_3/mapper.py",  "hadoop_3_3/reducer.py", "output/cluster/hadoop_3_3")
+# cluster.analyze("analisi_3_3", "hadoop_3_3/mapper.py",  "hadoop_3_3/reducer.py", "output/cluster/hadoop_3_3")
 
 # Chiusura sessioni Spark
 # spark.stop()
