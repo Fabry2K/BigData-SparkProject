@@ -1,6 +1,7 @@
 import analysis_3_1_local
 import analysis_3_3_local
-import cluster
+import cluster_hadoop
+import cluster_spark
 from pyspark.sql import SparkSession
 
 original_file = "files/flight_data_2024.csv"
@@ -27,12 +28,16 @@ spark = SparkSession.builder \
 # analysis_3_1_local.initialize_files(original_file, file_local_3_1, file_cluster_3_1)      # inizializza i file per le analisi, sia per locale che per cluster
 # analysis_3_1_local.analize(spark)  # analisi 3.1 locale
 
-cluster.analyze("analisi_3_1", "hadoop_3_1/mapper.py",  "hadoop_3_1/reducer.py", "output/cluster/hadoop_3_1")
+cluster_spark.analyze_3_1()
+
+# cluster_hadoop.analyze("analisi_3_1", "hadoop_3_1/mapper.py",  "hadoop_3_1/reducer.py", "output/cluster/hadoop_3_1")
 
 ###### Analisi 3.3: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####
 
 # analysis_3_3_local.initialize_files(original_file, file_local_3_3, file_cluster_3_3)      # inizializza i file per le analisi, sia per locale che per cluster
 # analysis_3_3_local.analize(spark)  # analisi 3.3 locale
+
+# cluster_spark.analyze_3_3()
 
 # cluster.analyze("analisi_3_3", "hadoop_3_3/mapper.py",  "hadoop_3_3/reducer.py", "output/cluster/hadoop_3_3")
 

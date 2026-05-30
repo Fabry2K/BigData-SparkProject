@@ -255,11 +255,7 @@ def analyze(analisi, mapper, reducer, output_path):
 
     # CLEAN OLD OUTPUT
     delete_s3_prefix(f"{CLUSTER}/output/")
-
-    # analisi con SPARK CORE su cluster AWS
-
-    # analisi con SPARK SQL su cluster AWS
-
+    
     # analisi con HADOOP su cluster AWS
     analyze_with_hadoop(
         inputs,
