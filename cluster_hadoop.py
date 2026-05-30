@@ -1,5 +1,6 @@
 from hadoop_cluster import cluster_executor
-from hadoop_exec import save_log, parse_hadoop_metrics
+from hadoop_exec import save_log
+import re
 from utils import path_existence
 import os
 import plot
@@ -153,6 +154,45 @@ def get_logs(step_id):
     return stdout, stderr
 
 
+# metric extraction
+def parse_hadoop_metrics(log_text):
+
+    metrics = {}
+
+    patterns = {
+        # EMR / Hadoop varianti
+        "map_time": [
+            r"Total time spent by all maps.*?=(\d+)",
+            r"Total time spent by all maps.*?in occupied slots.*?=(\d+)"
+        ],
+
+        "reduce_time": [
+            r"Total time spent by all reduces.*?=(\d+)",
+            r"Total time spent by all reduces.*?in occupied slots.*?=(\d+)"
+        ],
+
+        "map_tasks": [
+            r"Launched map tasks=(\d+)",
+            r"Maps Launched=(\d+)",
+            r"Map tasks[=: ]+(\d+)"
+        ],
+
+        "reduce_tasks": [
+            r"Launched reduce tasks=(\d+)",
+            r"Reduces Launched=(\d+)",
+            r"Reduce tasks[=: ]+(\d+)"
+        ]
+    }
+
+    for key, regex_list in patterns.items():
+        for pattern in regex_list:
+            m = re.search(pattern, log_text, re.IGNORECASE)
+            if m:
+                metrics[key] = int(m.group(1))
+                break
+
+    return metrics
+
 ##########################################################################################################################################################################################################################################################
 ###########     HADOOP     ################################################################################################################################################################################
 ##########################################################################################################################################################################################################################################################
@@ -265,3 +305,5 @@ def analyze(analisi, mapper, reducer, output_path):
         output_path,
         path_existence(f"{output_path}/logs.txt")
     )
+
+analyze("analisi_3_1", "hadoop_3_1/mapper.py",  "hadoop_3_1/reducer.py", "output/cluster/hadoop_3_1")

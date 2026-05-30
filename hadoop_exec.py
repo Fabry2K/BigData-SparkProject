@@ -108,6 +108,7 @@ def parse_hadoop_metrics(log_text):
 
     return metrics
 
+
 # ----------------------------
 # MAIN FUNCTIONS
 # ----------------------------
@@ -118,79 +119,97 @@ def parse_hadoop_metrics(log_text):
 # ----------------------------
 
 # funzione che esegue il job su HADOOP
-def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_path, input_path, output_path, log_output_file_path):
+def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_path, analisi, output_path, log_output_file_path):
 
-    input_hdfs = f"/input/{os.path.basename(input_path)}"
-    output_hdfs = f"/output/{os.path.basename(output_path)}"
+    execution_time = {}
 
-    mapper_hdfs = f"/tmp/{os.path.basename(mapper_file)}"
-    reducer_hdfs = f"/tmp/{os.path.basename(reducer_file)}"
-
-    # generazione directory
+    # generazione directories hdfs
     run_cmd("hdfs dfs -mkdir -p /input")
     run_cmd("hdfs dfs -mkdir -p /output")
     run_cmd("hdfs dfs -mkdir -p /tmp")
 
 
-    print("Checking HDFS files...")
 
-    # upload mapper
+    # ----------------------------------
+    # UPLOADING MAPPER E REDUCER TO HDFS
+    # ----------------------------------
+
+    mapper_hdfs = f"/tmp/{os.path.basename(mapper_file)}"
+    reducer_hdfs = f"/tmp/{os.path.basename(reducer_file)}"
+
+
     if not hdfs_exists(mapper_hdfs):
         print("Uploading mapper")
         hdfs_put(mapper_file, mapper_hdfs)
 
-    # upload reducer
     if not hdfs_exists(reducer_hdfs):
         print("Uploading reducer")
         hdfs_put(reducer_file, reducer_hdfs)
 
-    # upload input (optional override)
-    if not hdfs_exists(input_hdfs):
-        print("Uploading input")
-        hdfs_put(input_file, input_hdfs)
 
-    # remove old output
-    if hdfs_exists(output_hdfs):
-        print("Removing old output")
-        hdfs_rm(output_hdfs)
+    # -----------------------
+    # UPLOADING INPUT TO HDFS
+    # -----------------------
+    for name, file in input_file.items():
+
+        input_hdfs = f"/input/{analisi}{os.path.basename(file)}"
+        output_hdfs = f"/output/{analisi}/{os.path.basename(file)}"
 
 
-    # run job
-    print("Running Hadoop job...")
+        # upload input (optional override)
+        if not hdfs_exists(input_hdfs):
+            print("Uploading input")
+            hdfs_put(file, input_hdfs)
 
-    # caricamento del path per il jar di Hadoop
-    load_dotenv()
-    path_hadoop_jar = os.getenv("path_hadoop_jar")
+        # remove old output
+        if hdfs_exists(output_hdfs):
+            print("Removing old output")
+            hdfs_rm(output_hdfs)
 
-    cmd = f"""
-    hadoop jar {path_hadoop_jar} \
-    -file {mapper_file} \
-    -file {reducer_file} \
-    -mapper "python3 {os.path.basename(mapper_file)}" \
-    -reducer "python3 {os.path.basename(reducer_file)}" \
-    -input {input_hdfs} \
-    -output {output_hdfs}
-    """
 
-    start_time = time.time()
-    stdout, stderr = run_cmd(cmd)
-    end_time = time.time()
+        # -----------------------
+        # HADOOP JOB RUN
+        # -----------------------
 
-    print("Job completed!")
+        print("Running Hadoop job...")
 
-    execution_time = end_time - start_time
+        # caricamento del path per il jar di Hadoop
+        load_dotenv()
+        path_hadoop_jar = os.getenv("path_hadoop_jar")
 
-    # log completo Hadoop
-    full_log = stdout + "\n" + stderr
+        cmd = f"""
+        hadoop jar {path_hadoop_jar} \
+        -file {mapper_file} \
+        -file {reducer_file} \
+        -mapper "python3 {os.path.basename(mapper_file)}" \
+        -reducer "python3 {os.path.basename(reducer_file)}" \
+        -input {input_hdfs} \
+        -output {output_hdfs}
+        """
 
-    # parsing metrics
-    metrics = parse_hadoop_metrics(full_log)
+        start_time = time.time()
+        stdout, stderr = run_cmd(cmd)
+        end_time = time.time()
 
-    # leggere output da HDFS
-    output_data = hdfs_cat(output_hdfs)
+        print("Job completed!")
 
-    # salvare in locale
-    save_to_local_file(output_data, local_output_file_path)
-    save_log(output_data, execution_time, metrics, log_output_file_path)
+        # -------------------------
+        # LOGS + METRICS
+        # -------------------------
+
+        execution_time[name] = end_time - start_time
+
+        # log completo Hadoop
+        full_log = stdout + "\n" + stderr
+
+        # parsing metrics
+        metrics = parse_hadoop_metrics(full_log)
+
+        # leggere output da HDFS
+        output_data = hdfs_cat(output_hdfs)
+
+        # salvare in locale
+        #save_to_local_file(output_data, local_output_file_path)
+        save_log(output_data, execution_time[name], metrics, log_output_file_path)
 
     return execution_time
