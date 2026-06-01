@@ -27,6 +27,9 @@ To reproduce the distributed experiments, the following requirements are necessa
 - AWS CLI installed on your local machine
 
 
+
+
+
 ### AWS CLI Installation
 
 AWS CLI is required to interact with AWS services and manage the cluster infrastructure.
@@ -52,6 +55,10 @@ brew install awscli
 ```bash
 msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi
 ```
+
+
+
+
 
 ### AWS Academy Setup
 
