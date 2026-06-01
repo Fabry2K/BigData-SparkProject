@@ -306,4 +306,4 @@ def analyze(analisi, mapper, reducer, output_path):
         path_existence(f"{output_path}/logs.txt")
     )
 
-analyze("analisi_3_1", "hadoop_3_1/mapper.py",  "hadoop_3_1/reducer.py", "output/cluster/hadoop_3_1")
+analyze("analisi_3_1", "hadoop_3_1/mapper.py",  "hadoop_3_1/reducer.py", "output/cluster/4_nodes/hadoop_3_1")

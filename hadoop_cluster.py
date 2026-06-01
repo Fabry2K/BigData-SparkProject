@@ -19,7 +19,7 @@ def cluster_executor(cluster_id, bucket, name, input_key, output_key, mapper_key
                              "-D",
                             "mapreduce.job.reduces=1",
                             "-files",
-                            f"s3://{bucket}/{mapper_key},s3://{bucket}/{reducer_key}",
+                            f"s3://{bucket}/{mapper_key}#mapper.py,s3://{bucket}/{reducer_key}#reducer.py",
                             "-mapper",
                             "python3 mapper.py",
                             "-reducer",
