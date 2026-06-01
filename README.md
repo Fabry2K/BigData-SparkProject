@@ -10,6 +10,7 @@ The study focuses on:
 - Efficiency and scalability of the implemented solutions
 
 The project compares the performance of Hadoop, Spark Core, and Spark SQL in both local and clustered environments.
+
 ---
 
 ## Overview
@@ -17,7 +18,7 @@ The project compares the performance of Hadoop, Spark Core, and Spark SQL in bot
 
 ---
 
-### Prerequisites
+## Prerequisites
 
 To reproduce the distributed experiments, the following requirements are necessary:
 
@@ -26,11 +27,11 @@ To reproduce the distributed experiments, the following requirements are necessa
 - AWS CLI installed on your local machine
 
 
-## AWS CLI Installation
+# AWS CLI Installation
 
 AWS CLI is required to interact with AWS services and manage the cluster infrastructure.
 
-### Installation (Linux, macOS, Windows)
+# Installation (Linux, macOS, Windows)
 
 #### Linux
 
