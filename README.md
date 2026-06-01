@@ -27,13 +27,13 @@ To reproduce the distributed experiments, the following requirements are necessa
 - AWS CLI installed on your local machine
 
 
-# AWS CLI Installation
+### AWS CLI Installation
 
 AWS CLI is required to interact with AWS services and manage the cluster infrastructure.
 
-# Installation (Linux, macOS, Windows)
+#### Installation (Linux, macOS, Windows)
 
-#### Linux
+##### Linux
 
 ```bash
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -41,19 +41,19 @@ unzip awscliv2.zip
 sudo ./aws/install
 ```
 
-#### macOS
+##### macOS
 
 ```bash
 brew install awscli
 ```
 
-#### Windows (PowerShell)
+##### Windows (PowerShell)
 
 ```bash
 msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi
 ```
 
-## AWS Academy Setup
+### AWS Academy Setup
 
 The Learner Lab must be launched manually from the AWS Academy dashboard. Once activated, AWS Academy provisions a temporary AWS environment and a set of session-based credentials. These credentials are required to access AWS services and are valid only for the duration of the lab session. They can be retrieved from the **AWS Details → AWS CLI** section.
 
@@ -73,4 +73,4 @@ Default region name []:
 Default output format []: json 
 ```
 
-# This step must be repeated every time a new session is started.
+##### This step must be repeated every time a new session is started.
