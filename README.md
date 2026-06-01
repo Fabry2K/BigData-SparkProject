@@ -14,24 +14,16 @@ The project compares the performance of Hadoop, Spark Core, and Spark SQL in bot
 
 ## Overview
 
-The goal of this project is to analyze how Large Language Models (LLMs) interact with relational databases, both through SQL query generation (Text-to-SQL) and direct reasoning over serialized tabular data (Direct QA).
-
-To this end, we implement a unified pipeline supporting both paradigms and assess their performance using data-centric metrics combined with a qualitative error analysis across different query types and database schemas. Experiments are conducted under multiple prompt configurations, including zero-shot, few-shot, and attribute-enhanced settings, to investigate their impact on model performance.
-
-The experiments are conducted on a subset of the Spider benchmark (`book_1.sqlite` dataset), and evaluated using execution-based metrics.
 
 ---
 
-## Prerequisites
+### Prerequisites
 
 To reproduce the distributed experiments, the following requirements are necessary:
 
-- An active AWS Academy account
-- Available AWS Academy credits
-- Access to an AWS Academy Learner Lab
+- An active AWS Academy account with credits
+- Access to the AWS Academy Learner Lab
 - AWS CLI installed on your local machine
-- SSH client installed and configured
-- Basic familiarity with AWS EC2 and cloud networking concepts
 
 
 ## AWS CLI Installation
@@ -60,3 +52,24 @@ brew install awscli
 msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi
 ```
 
+## AWS Academy Setup
+
+The Learner Lab must be launched manually from the AWS Academy dashboard. Once activated, AWS Academy provisions a temporary AWS environment and a set of session-based credentials. These credentials are required to access AWS services and are valid only for the duration of the lab session. They can be retrieved from the **AWS Details → AWS CLI** section.
+
+To configure the AWS CLI on the local machine using the provided credentials, run:
+
+```bash
+aws configure
+```
+
+You will then be prompted to enter the required parameters:
+
+```bash
+AWS Access Key ID []: 
+AWS Secret Access Key []: 
+AWS Session Token []: 
+Default region name []: 
+Default output format []: json 
+```
+
+# This step must be repeated every time a new session is started.
