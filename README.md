@@ -27,7 +27,7 @@ To reproduce the distributed experiments, the following requirements are necessa
 - AWS CLI installed on your local machine
 
 
-
+---
 
 
 ### AWS CLI Installation
@@ -57,7 +57,7 @@ msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi
 ```
 
 
-
+---
 
 
 ### AWS Academy Setup
