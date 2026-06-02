@@ -28,3 +28,68 @@ origin	->          aeroporto di partenza
 dep_delay	->      ritardo medio partenza + ranking
 arr_delay	->      ritardo medio arrivo
 cancelled	->      tasso di cancellazione
+
+
+
+L'anno non è per niente informativo, tutto 2024. Colonna eliminabile.
+
+
+***** ANALISI MISSING VALUES *****
+
+----------------------------------------------------------------------------------------------
+Di seguito gli attributi contenenti valori nulli nel dataset, con le relative quantità di NaN:
+----------------------------------------------------------------------------------------------
+cancelled                   0
+air_time               113814
+dep_time                92659
+dep_delay               92970
+taxi_out                95734
+wheels_off              95734
+wheels_on               97856
+taxi_in                 97856
+arr_time                97854
+arr_delay              113814
+actual_elapsed_time    113814
+----------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------
+Di seguito, gli stessi quando cancelled = 1 (i voli sono stati cancellati):
+----------------------------------------------------------------------------------------------
+air_time               96315
+dep_time               92659
+dep_delay              92970
+taxi_out               95734
+wheels_off             95734
+wheels_on              96315
+taxi_in                96315
+arr_time               96315
+arr_delay              96315
+actual_elapsed_time    96315
+----------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------
+Infine, le percentuali di valori nulli per attributo, dipendenti dai voli cancellati
+----------------------------------------------------------------------------------------------
+air_time               100.000000
+wheels_on              100.000000
+taxi_in                100.000000
+arr_time               100.000000
+arr_delay              100.000000
+actual_elapsed_time    100.000000
+taxi_out                99.396771
+wheels_off              99.396771
+dep_delay               96.527021
+dep_time                96.204122
+----------------------------------------------------------------------------------------------
+
+Notiamo come quasi la totalità (se non la totalità in alcuni casi) dei valori tutti, dipenda fortemente dalle cancellazioni dei voli.
+Ha senso, perchè se un volo è stato cancellato non avrà log riguardanti cose come air_time (tempo di volo), arr_time (orario d'arrivo), ecc...
+
+Per essere sicuri dell'effettiva correlazioni, si è proceduto a un'analisi della matrice delle missing values ordinata per voli cancellati
+
+Queste missing values non ha senso inferirle, in questo caso la mancanza di un dato è informazione, sono MNAR (Missing Not At Random).
+
+
+
+L'elapsed time è il tempo di volo (includi i rullaggi) -> arr_time - dep_time
+L'air time è il tempo di volo (esclusi i rullaggi) -> wheels_off - wheels_on
