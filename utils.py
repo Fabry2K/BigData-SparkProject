@@ -185,3 +185,13 @@ def path_existence(path):
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
     return path
+
+# esegue un comando shell e restituisce stdout e stderr, solleva un'eccezione se il comando fallisce
+def run_cmd(cmd):
+    result = subprocess.run(cmd, shell=True, text=True, capture_output=True)
+
+    if result.returncode != 0:
+        print(result.stderr)
+        raise RuntimeError("Command failed")
+
+    return result.stdout, result.stderr

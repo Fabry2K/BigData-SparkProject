@@ -10,6 +10,7 @@ from py4j.java_gateway import java_import
 from pyspark.sql.functions import col, split
 from pathlib import Path
 import pandas as pd
+from utils import run_cmd
 
 ###### Analisi 3.1: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####        
 
@@ -31,6 +32,9 @@ cols_to_keep = [
 # inizializza i file sia per l'analisi in locale che su cluster
 def initialize_files(original_file, file_local, hdfs_input_path):
 
+
+    run_cmd("hdfs dfs -mkdir -p /input")
+
     print("Inizializzazione file per analisi 3.1 in corso...")
     # crea il file locale, se non esiste
     if not Path(file_local).exists():
@@ -40,7 +44,7 @@ def initialize_files(original_file, file_local, hdfs_input_path):
         print("CSV originale letto correttamente")
 
         # droppo le righe con diverted = 1, in quanto non sono voli effettivamente partiti e quindi non hanno senso per l'analisi 3.1
-        df = df[df["diverted"] == 0]
+        df = df[df["diverted"] == '0']
 
         df_base = df[cols_to_keep].copy()
 
@@ -74,9 +78,6 @@ def initialize_files(original_file, file_local, hdfs_input_path):
     for local_file in local_files:
 
         hdfs_path = f"{hdfs_input_path}/{Path(local_file).name}"
-
-
-
 
         if not utils.hdfs_exists(hdfs_path):
             print(f"Uploading {local_file} -> {hdfs_path}")
@@ -269,4 +270,3 @@ def analize(spark):
     hadoop_analysis("analisi_3_1")
     hadoop_analysis("analisi_3_3")
 
-analize(None)

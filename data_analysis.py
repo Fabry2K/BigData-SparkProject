@@ -13,7 +13,7 @@ df = pd.read_csv("files/flight_data_2024.csv", low_memory=False)
 
 
 
-print(df[df["diverted"]==1].count())
+print(df.describe())
 
 cols = [
     "air_time",

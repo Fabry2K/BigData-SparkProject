@@ -4,22 +4,12 @@ import time
 from datetime import datetime
 import subprocess
 from dotenv import load_dotenv
+from utils import run_cmd
 
 
 # ----------------------------
 # UTILS
 # ----------------------------
-
-def run_cmd(cmd):
-    result = subprocess.run(cmd, shell=True, text=True, capture_output=True)
-
-    if result.returncode != 0:
-        print(result.stderr)
-        raise RuntimeError("Command failed")
-
-    return result.stdout, result.stderr
-
-
 
 def hdfs_exists(path):
     res = subprocess.run(f"hdfs dfs -test -e {path}", shell=True)
@@ -124,7 +114,6 @@ def hadoop_executor(mapper_file, reducer_file, input_file, local_output_file_pat
     execution_time = {}
 
     # generazione directories hdfs
-    run_cmd("hdfs dfs -mkdir -p /input")
     run_cmd("hdfs dfs -mkdir -p /output")
     run_cmd("hdfs dfs -mkdir -p /tmp")
 
