@@ -268,5 +268,4 @@ def analize(spark):
 #     # hive_analysis()
 
     hadoop_analysis("analisi_3_1")
-    hadoop_analysis("analisi_3_3")
 
