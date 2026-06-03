@@ -1,0 +1,17 @@
+========================================
+ANALISI 3.1 - quarter
+Timestamp: 2026-06-03 17:22:18.259073
+========================================
+
+Row(op_unique_carrier='DL', origin='MSY', num_flights=1752, min_arr_delay=0.0, max_arr_delay=1136.0, avg_arr_delay=12.919520547945206, cancellation_rate=0.0)
+Row(op_unique_carrier='B6', origin='PSP', num_flights=19, min_arr_delay=0.0, max_arr_delay=169.0, avg_arr_delay=31.63157894736842, cancellation_rate=0.0)
+Row(op_unique_carrier='OO', origin='EAU', num_flights=8, min_arr_delay=0.0, max_arr_delay=29.0, avg_arr_delay=4.125, cancellation_rate=0.0)
+Row(op_unique_carrier='AA', origin='SDF', num_flights=643, min_arr_delay=0.0, max_arr_delay=2549.0, avg_arr_delay=30.636080870917574, cancellation_rate=0.0)
+Row(op_unique_carrier='MQ', origin='EYW', num_flights=512, min_arr_delay=0.0, max_arr_delay=302.0, avg_arr_delay=16.818359375, cancellation_rate=0.0)
+Row(op_unique_carrier='YX', origin='ATL', num_flights=288, min_arr_delay=0.0, max_arr_delay=841.0, avg_arr_delay=15.788194444444445, cancellation_rate=0.0)
+Row(op_unique_carrier='9E', origin='GRR', num_flights=203, min_arr_delay=0.0, max_arr_delay=331.0, avg_arr_delay=11.349753694581281, cancellation_rate=0.0)
+Row(op_unique_carrier='9E', origin='BGR', num_flights=296, min_arr_delay=0.0, max_arr_delay=459.0, avg_arr_delay=13.432432432432432, cancellation_rate=0.0)
+Row(op_unique_carrier='DL', origin='FCA', num_flights=187, min_arr_delay=0.0, max_arr_delay=367.0, avg_arr_delay=7.877005347593583, cancellation_rate=0.0)
+Row(op_unique_carrier='DL', origin='MDT', num_flights=181, min_arr_delay=0.0, max_arr_delay=228.0, avg_arr_delay=8.07182320441989, cancellation_rate=0.0)
+
+EXEC TIME: 1.956816244125366

@@ -1,0 +1,17 @@
+========================================
+ANALISI 3.3 - quarter
+Timestamp: 2026-06-03 14:47:24.999131
+========================================
+
+Row(origin='BGM', op_unique_carrier='9E', num_flights=98, avg_dep_delay=30.275510204081634, avg_arr_delay=32.52040816326531, cancellation_rate=0.0, airport_avg_dep_delay=30.275510204081634, dep_delay_diff=0.0, rank=1)
+Row(origin='GEG', op_unique_carrier='AS', num_flights=560, avg_dep_delay=8.257142857142858, avg_arr_delay=8.853571428571428, cancellation_rate=0.0, airport_avg_dep_delay=10.48778801843318, dep_delay_diff=-2.2306451612903224, rank=1)
+Row(origin='GEG', op_unique_carrier='UA', num_flights=185, avg_dep_delay=8.637837837837838, avg_arr_delay=9.454054054054055, cancellation_rate=0.0, airport_avg_dep_delay=10.48778801843318, dep_delay_diff=-1.8499501805953429, rank=2)
+Row(origin='GEG', op_unique_carrier='WN', num_flights=978, avg_dep_delay=9.014314928425359, avg_arr_delay=7.731083844580777, cancellation_rate=0.0, airport_avg_dep_delay=10.48778801843318, dep_delay_diff=-1.473473090007822, rank=3)
+Row(origin='GEG', op_unique_carrier='OO', num_flights=1491, avg_dep_delay=9.232059020791414, avg_arr_delay=10.293762575452716, cancellation_rate=0.0, airport_avg_dep_delay=10.48778801843318, dep_delay_diff=-1.255728997641766, rank=4)
+Row(origin='GEG', op_unique_carrier='DL', num_flights=739, avg_dep_delay=9.552097428958051, avg_arr_delay=9.844384303112314, cancellation_rate=0.0, airport_avg_dep_delay=10.48778801843318, dep_delay_diff=-0.9356905894751293, rank=5)
+Row(origin='GEG', op_unique_carrier='G4', num_flights=51, avg_dep_delay=17.137254901960784, avg_arr_delay=16.764705882352942, cancellation_rate=0.0, airport_avg_dep_delay=10.48778801843318, dep_delay_diff=6.649466883527603, rank=6)
+Row(origin='GEG', op_unique_carrier='AA', num_flights=336, avg_dep_delay=26.133928571428573, avg_arr_delay=24.961309523809526, cancellation_rate=0.0, airport_avg_dep_delay=10.48778801843318, dep_delay_diff=15.646140552995393, rank=7)
+Row(origin='MYR', op_unique_carrier='OO', num_flights=8, avg_dep_delay=4.375, avg_arr_delay=8.25, cancellation_rate=0.0, airport_avg_dep_delay=14.167552518349785, dep_delay_diff=-9.792552518349785, rank=1)
+Row(origin='MYR', op_unique_carrier='9E', num_flights=128, avg_dep_delay=6.484375, avg_arr_delay=4.8203125, cancellation_rate=0.0, airport_avg_dep_delay=14.167552518349785, dep_delay_diff=-7.683177518349785, rank=2)
+
+EXEC TIME: 4.19168815612793

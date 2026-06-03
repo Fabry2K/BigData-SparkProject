@@ -1,0 +1,17 @@
+========================================
+ANALISI 3.3 SQL - quarter
+Timestamp: 2026-06-03 15:21:35.978838
+========================================
+
+Row(origin='ABE', op_unique_carrier='9E', num_flights=235, avg_dep_delay=12.251063829787235, avg_arr_delay=13.072340425531914, cancellation_rate=0.0, dep_delay_diff=-3.9931446644212585, rank=1)
+Row(origin='ABE', op_unique_carrier='OO', num_flights=70, avg_dep_delay=15.071428571428571, avg_arr_delay=14.457142857142857, cancellation_rate=0.0, dep_delay_diff=-1.172779922779922, rank=2)
+Row(origin='ABE', op_unique_carrier='G4', num_flights=458, avg_dep_delay=16.406113537117903, avg_arr_delay=16.58296943231441, cancellation_rate=0.0, dep_delay_diff=0.1619050429094102, rank=3)
+Row(origin='ABE', op_unique_carrier='OH', num_flights=273, avg_dep_delay=19.71062271062271, avg_arr_delay=18.564102564102566, cancellation_rate=0.0, dep_delay_diff=3.4664142164142184, rank=4)
+Row(origin='ABI', op_unique_carrier='MQ', num_flights=459, avg_dep_delay=9.847494553376906, avg_arr_delay=10.932461873638344, cancellation_rate=0.0, dep_delay_diff=0.0, rank=1)
+Row(origin='ABQ', op_unique_carrier='DL', num_flights=384, avg_dep_delay=3.4296875, avg_arr_delay=3.90625, cancellation_rate=0.0, dep_delay_diff=-9.32378415495834, rank=1)
+Row(origin='ABQ', op_unique_carrier='OO', num_flights=1063, avg_dep_delay=6.924741298212606, avg_arr_delay=7.630291627469426, cancellation_rate=0.0, dep_delay_diff=-5.828730356745734, rank=2)
+Row(origin='ABQ', op_unique_carrier='MQ', num_flights=239, avg_dep_delay=10.117154811715482, avg_arr_delay=11.175732217573222, cancellation_rate=0.0, dep_delay_diff=-2.6363168432428576, rank=3)
+Row(origin='ABQ', op_unique_carrier='WN', num_flights=2912, avg_dep_delay=12.740384615384615, avg_arr_delay=11.593063186813186, cancellation_rate=0.0, dep_delay_diff=-0.013087039573724368, rank=4)
+Row(origin='ABQ', op_unique_carrier='UA', num_flights=460, avg_dep_delay=14.206521739130435, avg_arr_delay=13.743478260869566, cancellation_rate=0.0, dep_delay_diff=1.4530500841720961, rank=5)
+
+EXEC TIME: 3.005510091781616

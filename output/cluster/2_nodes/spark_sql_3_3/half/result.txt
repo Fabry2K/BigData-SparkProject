@@ -1,0 +1,17 @@
+========================================
+ANALISI 3.3 SQL - half
+Timestamp: 2026-06-03 15:21:49.366703
+========================================
+
+Row(origin='ABE', op_unique_carrier='G4', num_flights=929, avg_dep_delay=14.847147470398278, avg_arr_delay=14.779332615715823, cancellation_rate=0.0, dep_delay_diff=-2.558690571032985, rank=1)
+Row(origin='ABE', op_unique_carrier='9E', num_flights=487, avg_dep_delay=15.096509240246407, avg_arr_delay=15.394250513347023, cancellation_rate=0.0, dep_delay_diff=-2.309328801184856, rank=2)
+Row(origin='ABE', op_unique_carrier='OH', num_flights=567, avg_dep_delay=20.497354497354497, avg_arr_delay=18.80599647266314, cancellation_rate=0.0, dep_delay_diff=3.0915164559232338, rank=3)
+Row(origin='ABE', op_unique_carrier='OO', num_flights=141, avg_dep_delay=29.80851063829787, avg_arr_delay=28.81560283687943, cancellation_rate=0.0, dep_delay_diff=12.402672596866609, rank=4)
+Row(origin='ABI', op_unique_carrier='MQ', num_flights=892, avg_dep_delay=10.165919282511211, avg_arr_delay=11.090807174887892, cancellation_rate=0.0, dep_delay_diff=0.0, rank=1)
+Row(origin='ABQ', op_unique_carrier='DL', num_flights=768, avg_dep_delay=4.204427083333333, avg_arr_delay=4.747395833333333, cancellation_rate=0.0, dep_delay_diff=-8.968066320360599, rank=1)
+Row(origin='ABQ', op_unique_carrier='OO', num_flights=2094, avg_dep_delay=7.407831900668577, avg_arr_delay=8.072110792741165, cancellation_rate=0.0, dep_delay_diff=-5.764661503025354, rank=2)
+Row(origin='ABQ', op_unique_carrier='MQ', num_flights=456, avg_dep_delay=10.195175438596491, avg_arr_delay=11.671052631578947, cancellation_rate=0.0, dep_delay_diff=-2.9773179650974395, rank=3)
+Row(origin='ABQ', op_unique_carrier='UA', num_flights=900, avg_dep_delay=12.384444444444444, avg_arr_delay=12.217777777777778, cancellation_rate=0.0, dep_delay_diff=-0.7880489592494868, rank=4)
+Row(origin='ABQ', op_unique_carrier='WN', num_flights=5866, avg_dep_delay=12.770201159222639, avg_arr_delay=11.629560177292873, cancellation_rate=0.0, dep_delay_diff=-0.4022922444712922, rank=5)
+
+EXEC TIME: 3.703829765319824
