@@ -31,6 +31,7 @@ cols_to_keep = [
 # inizializza i file sia per l'analisi in locale che su cluster
 def initialize_files(original_file, file_local, hdfs_input_path):
 
+    print("Inizializzazione file per analisi 3.1 in corso...")
     # crea il file locale, se non esiste
     if not Path(file_local).exists():
         print("File locale non presente, creazione in corso...")
@@ -38,6 +39,8 @@ def initialize_files(original_file, file_local, hdfs_input_path):
         df = pd.read_csv(original_file, dtype=str)
         print("CSV originale letto correttamente")
 
+        # droppo le righe con diverted = 1, in quanto non sono voli effettivamente partiti e quindi non hanno senso per l'analisi 3.1
+        df = df[df["diverted"] == 0]
 
         df_base = df[cols_to_keep].copy()
 

@@ -58,10 +58,16 @@ for line in sys.stdin:
     current_key = key_str
 
     total_flights += count
-    min_delay = min(min_delay, arr_delay)
-    max_delay = max(max_delay, arr_delay)
-    sum_delay += arr_delay
+
+    if cancelled == 0:
+        
+        min_delay = min(min_delay, arr_delay) 
+        max_delay = max(max_delay, arr_delay)
+
+        sum_delay += arr_delay
+
     total_cancelled += cancelled
+
     months.add(month)
 
 

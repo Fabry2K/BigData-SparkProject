@@ -82,7 +82,7 @@ dep_delay               96.527021
 dep_time                96.204122
 ----------------------------------------------------------------------------------------------
 
-Notiamo come quasi la totalità (se non la totalità in alcuni casi) dei valori tutti, dipenda fortemente dalle cancellazioni dei voli.
+Notiamo come quasi la totalità (se non la totalità in alcuni casi) dei valori nulli, dipenda fortemente dalle cancellazioni dei voli.
 Ha senso, perchè se un volo è stato cancellato non avrà log riguardanti cose come air_time (tempo di volo), arr_time (orario d'arrivo), ecc...
 
 Per essere sicuri dell'effettiva correlazioni, si è proceduto a un'analisi della matrice delle missing values ordinata per voli cancellati
@@ -91,5 +91,25 @@ Queste missing values non ha senso inferirle, in questo caso la mancanza di un d
 
 
 
-L'elapsed time è il tempo di volo (includi i rullaggi) -> arr_time - dep_time
+L'elapsed time è il tempo di volo (inclusi i rullaggi) -> arr_time - dep_time
 L'air time è il tempo di volo (esclusi i rullaggi) -> wheels_off - wheels_on
+
+
+Quando cancelled == 0, si continuano ad avere valori nulli. In particolare:
+----------------------------------------------------------------------------------------------
+air_time               17499
+dep_time                   0
+dep_delay                  0
+taxi_out                   0
+wheels_off                 0
+wheels_on               1541
+taxi_in                 1541
+arr_time                1539
+arr_delay              17499
+actual_elapsed_time    17499
+----------------------------------------------------------------------------------------------
+
+Nuova teoria: i rimanenti air_time, arr_time e actual_elapsed_time sono nulli quando il volo è dirottato. 
+Ha senso perchè se un volo è dirottato non è mai arrivato a destinazione 
+
+I rimanenti temo siano errori della compagnia e non ho dati sufficienti per inferirli (sono MAR)

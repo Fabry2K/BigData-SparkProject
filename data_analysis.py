@@ -13,7 +13,7 @@ df = pd.read_csv("files/flight_data_2024.csv", low_memory=False)
 
 
 
-
+print(df[df["diverted"]==1].count())
 
 cols = [
     "air_time",
@@ -64,7 +64,12 @@ print(df_unique[cols].isnull().sum())
 
 # df_sorted = df_clean.sort_values(by="cancelled", ascending=False)
 
-# # matrice missingno sull'ordinato
+# matrice missingno sull'ordinato
 # plt.figure(figsize=(6, 6))
-# msno.matrix(df_sorted[["cancelled"] + cols])
+# msno.matrix(
+#     df_flights[["arr_delay", "air_time", "actual_elapsed_time"]],
+#     figsize=(6, 6)
+# )
 # plt.show()
+
+print((df_flights[df_flights["diverted"] == 1])[cols].isnull().sum())
