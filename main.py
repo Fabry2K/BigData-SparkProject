@@ -14,6 +14,8 @@ file_cluster_3_3 = "/input"
 
 # # cancella il contenuto del file di log
 open("output/log.txt", "w").close()
+# open("output/local/spark/spark_core_local.txt", "w").close()
+# open("output/local/spark/spark_sql_local.txt", "w").close()
 
 # # creazione Sessione Spark per analisi in locale, una volta per tutta l'esecuzione
 spark = SparkSession.builder \
@@ -33,8 +35,8 @@ analysis_3_1_local.analize(spark)  # analisi 3.1 locale
 
 ###### Analisi 3.3: job in grado di generare le statistiche di ciascuna compagnia aerea presente nel dataset#####
 
-# analysis_3_3_local.initialize_files(original_file, file_local_3_3, file_cluster_3_3)      # inizializza i file per le analisi, sia per locale che per cluster
-# analysis_3_3_local.analize(spark)  # analisi 3.3 locale
+analysis_3_3_local.initialize_files(original_file, file_local_3_3, file_cluster_3_3)      # inizializza i file per le analisi, sia per locale che per cluster
+analysis_3_3_local.analize(spark)  # analisi 3.3 locale
 
 # cluster_spark.analyze_3_3()
 

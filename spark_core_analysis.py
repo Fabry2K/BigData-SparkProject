@@ -84,7 +84,7 @@ def analysis_3_1(spark, hdfs_input_file):
     save_spark_log(
     result,
     execution_time,
-    "output/log.txt",
+    "output/local/spark/spark_core_local.txt",
     title="Analisi 3.1 SPARK CORE"
     )
 
@@ -144,7 +144,7 @@ def analysis_3_3(spark, hdfs_input_file):
     save_spark_log(
     result,
     execution_time,
-    "output/log.txt",
+    "output/local/spark/spark_core_local.txt",
     title="Analisi 3.3 SPARK CORE"
     )
 

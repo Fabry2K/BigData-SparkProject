@@ -72,7 +72,8 @@ def analysis_3_1(spark, hdfs_filepath):
 
     utils.append_to_log(
         "SPARK SQL 3.1 - " + Path(hdfs_filepath).stem,
-        output + f"\n\nExecution time: {execution_time:.2f} seconds"
+        output + f"\n\nExecution time: {execution_time:.2f} seconds",
+        logfile="output/local/spark/spark_sql_local.txt"
     )
 
     return execution_time
@@ -151,7 +152,8 @@ def analysis_3_3(spark, hdfs_filepath):
 
     utils.append_to_log(
         "SPARK SQL 3.3 - " + Path(hdfs_filepath).stem,
-        output + f"\n\nExecution time: {execution_time:.2f} seconds"
+        output + f"\n\nExecution time: {execution_time:.2f} seconds",
+        logfile="output/local/spark/spark_sql_local.txt"
     )
 
     return execution_time

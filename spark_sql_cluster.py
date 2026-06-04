@@ -72,7 +72,6 @@ def run_3_1(dataset):
     df = spark.read.csv(path, header=True, inferSchema=True)
     df = clean_flights(df)
 
-    # 🔥 FIX CHIAVE: ESCLUDI CANCELLED QUI
     df = df.filter(col("cancelled") == 0)
 
     df.createOrReplaceTempView("flights")
@@ -135,7 +134,6 @@ def run_3_3(dataset):
     df = spark.read.csv(path, header=True, inferSchema=True)
     df = clean_flights(df)
 
-    # 🔥 FIX CHIAVE: ESCLUDI CANCELLED QUI
     df = df.filter(col("cancelled") == 0)
 
     df.createOrReplaceTempView("flights")
