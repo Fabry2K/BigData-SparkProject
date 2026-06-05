@@ -87,6 +87,8 @@ def run_3_1(dataset):
             AVG(arr_delay) AS avg_arr_delay,
 
             SUM(cancelled) / COUNT(*) AS cancellation_rate
+                       
+            COLLECT_SET(month) AS months_active
 
         FROM flights
         WHERE cancelled = 0

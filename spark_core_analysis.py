@@ -69,7 +69,8 @@ def analysis_3_1(spark, hdfs_input_file):
         min("arr_delay").alias("min_arr_delay"),
         max("arr_delay").alias("max_arr_delay"),
         avg("arr_delay").alias("avg_arr_delay"),
-        (sum("cancelled") / count("*")).alias("cancellation_rate")
+        (sum("cancelled") / count("*")).alias("cancellation_rate"),
+        collect_set("month").alias("months_active")
     )
 
     result.collect()

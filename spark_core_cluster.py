@@ -136,6 +136,7 @@ def run_3_3(dataset):
         avg("dep_delay").alias("avg_dep_delay"),
         avg("arr_delay").alias("avg_arr_delay"),
         (sum("cancelled") / count("*")).alias("cancellation_rate")
+        collect_set("month").alias("months_active")
     )
 
     # media aeroporto

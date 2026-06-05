@@ -263,7 +263,7 @@ def analize(spark):
 
     analyze_with_spark_core(spark)
 
-    analyze_with_spark_sql(spark)
+    # analyze_with_spark_sql(spark)
 
     # hive_analysis()
 
