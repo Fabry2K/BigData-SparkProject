@@ -87,7 +87,7 @@ for line in sys.stdin:
     except Exception:
         continue
 
-    # cambio aeroporto
+    #cambio aeroporto
     if current_origin and current_origin != origin:
         emit(current_origin)
         reset()

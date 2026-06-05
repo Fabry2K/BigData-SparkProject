@@ -59,7 +59,7 @@ for line in sys.stdin:
 
     total_flights += count
 
-    if cancelled == 0:
+    if cancelled == '0':
         
         min_delay = min(min_delay, arr_delay) 
         max_delay = max(max_delay, arr_delay)
