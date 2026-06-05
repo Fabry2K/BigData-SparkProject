@@ -1,21 +1,24 @@
+#!/usr/bin/env python3
 import sys
 import json
 
-#!/usr/bin/env python3
-current_key = None
+current_origin = None
 
 carrier_stats = {}
 airport_total_dep = 0
 airport_total_flights = 0
 
 
-def emit(key):
+def reset():
     global carrier_stats, airport_total_dep, airport_total_flights
+    carrier_stats = {}
+    airport_total_dep = 0
+    airport_total_flights = 0
 
-    if not key:
+
+def emit(origin):
+    if not origin:
         return
-
-    origin = key.split("|")[0]
 
     airport_avg = (
         airport_total_dep / airport_total_flights
@@ -43,11 +46,10 @@ def emit(key):
             "diff": diff
         })
 
-    # ranking
-    results.sort(key=lambda x: x["avg_dep"])
+    # ranking per delay medio di partenza
+    results.sort(key=lambda x: x["avg_dep"], reverse=True)
 
     rank = 1
-
     for r in results:
         print(json.dumps({
             "origin": origin,
@@ -56,10 +58,13 @@ def emit(key):
             "avg_dep_delay": round(r["avg_dep"], 2),
             "avg_arr_delay": round(r["avg_arr"], 2),
             "cancellation_rate": round(r["cancel"], 4),
+
+            # 🔥 airport baseline esplicito
+            "airport_avg_dep_delay": round(airport_avg, 2),
+
             "dep_delay_diff": round(r["diff"], 2),
             "rank": rank
         }))
-
         rank += 1
 
 
@@ -70,8 +75,8 @@ for line in sys.stdin:
 
     try:
         key, value = line.split("\t")
-        origin, carrier = key.split("|")
 
+        origin, carrier = key.split("|")
         count, dep, arr, cancelled = value.split(",")
 
         count = int(count)
@@ -82,15 +87,14 @@ for line in sys.stdin:
     except Exception:
         continue
 
-    # cambio gruppo (origin|carrier)
-    if current_key and current_key != key:
-        emit(current_key)
-        carrier_stats = {}
-        airport_total_dep = 0
-        airport_total_flights = 0
+    # cambio aeroporto
+    if current_origin and current_origin != origin:
+        emit(current_origin)
+        reset()
 
-    current_key = key
+    current_origin = origin
 
+    # init carrier bucket
     if carrier not in carrier_stats:
         carrier_stats[carrier] = {
             "flights": 0,
@@ -99,14 +103,16 @@ for line in sys.stdin:
             "cancelled": 0
         }
 
+    # accumulate carrier stats
     carrier_stats[carrier]["flights"] += count
     carrier_stats[carrier]["dep"] += dep
     carrier_stats[carrier]["arr"] += arr
     carrier_stats[carrier]["cancelled"] += cancelled
 
+    # accumulate airport totals (ALL carriers)
     airport_total_dep += dep
     airport_total_flights += count
 
 
 # flush finale
-emit(current_key)
+emit(current_origin)

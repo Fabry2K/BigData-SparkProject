@@ -1,0 +1,125 @@
+
+======================================================================
+Execution timestamp: 2026-06-05 03:18:05.984698
+Execution time: 69.49 seconds
+
+HADOOP METRICS
+--------------------------------------------------------------------------------
+map_time: 25409
+reduce_time: 13818
+map_tasks: 2
+reduce_tasks: 1
+
+TOP 10 RESULTS
+----------------------------------------------------------------------
+{"origin": "ABE", "carrier": "OH", "num_flights": 276, "avg_dep_delay": 19.5, "avg_arr_delay": 18.36, "cancellation_rate": 0.0109, "airport_avg_dep_delay": 16.04, "dep_delay_diff": 3.45, "rank": 1}	
+{"origin": "ABE", "carrier": "G4", "num_flights": 465, "avg_dep_delay": 16.16, "avg_arr_delay": 16.33, "cancellation_rate": 0.0151, "airport_avg_dep_delay": 16.04, "dep_delay_diff": 0.12, "rank": 2}	
+{"origin": "ABE", "carrier": "OO", "num_flights": 72, "avg_dep_delay": 14.65, "avg_arr_delay": 14.06, "cancellation_rate": 0.0278, "airport_avg_dep_delay": 16.04, "dep_delay_diff": -1.39, "rank": 3}	
+{"origin": "ABE", "carrier": "9E", "num_flights": 236, "avg_dep_delay": 12.2, "avg_arr_delay": 13.02, "cancellation_rate": 0.0042, "airport_avg_dep_delay": 16.04, "dep_delay_diff": -3.84, "rank": 4}	
+{"origin": "ABI", "carrier": "MQ", "num_flights": 464, "avg_dep_delay": 9.74, "avg_arr_delay": 10.81, "cancellation_rate": 0.0108, "airport_avg_dep_delay": 9.74, "dep_delay_diff": 0.0, "rank": 1}	
+{"origin": "ABQ", "carrier": "B6", "num_flights": 55, "avg_dep_delay": 60.55, "avg_arr_delay": 55.38, "cancellation_rate": 0.0, "airport_avg_dep_delay": 12.68, "dep_delay_diff": 47.86, "rank": 1}	
+{"origin": "ABQ", "carrier": "AA", "num_flights": 803, "avg_dep_delay": 20.86, "avg_arr_delay": 20.88, "cancellation_rate": 0.0212, "airport_avg_dep_delay": 12.68, "dep_delay_diff": 8.18, "rank": 2}	
+{"origin": "ABQ", "carrier": "AS", "num_flights": 106, "avg_dep_delay": 15.92, "avg_arr_delay": 15.58, "cancellation_rate": 0.0189, "airport_avg_dep_delay": 12.68, "dep_delay_diff": 3.24, "rank": 3}	
+{"origin": "ABQ", "carrier": "NK", "num_flights": 119, "avg_dep_delay": 14.29, "avg_arr_delay": 14.33, "cancellation_rate": 0.0084, "airport_avg_dep_delay": 12.68, "dep_delay_diff": 1.61, "rank": 4}	
+{"origin": "ABQ", "carrier": "UA", "num_flights": 468, "avg_dep_delay": 14.0, "avg_arr_delay": 13.51, "cancellation_rate": 0.0171, "airport_avg_dep_delay": 12.68, "dep_delay_diff": 1.31, "rank": 5}	
+
+
+======================================================================
+Execution timestamp: 2026-06-05 03:19:00.655838
+Execution time: 49.64 seconds
+
+HADOOP METRICS
+--------------------------------------------------------------------------------
+map_time: 32962
+reduce_time: 18201
+map_tasks: 2
+reduce_tasks: 1
+
+TOP 10 RESULTS
+----------------------------------------------------------------------
+{"origin": "ABE", "carrier": "OO", "num_flights": 148, "avg_dep_delay": 28.4, "avg_arr_delay": 27.45, "cancellation_rate": 0.0473, "airport_avg_dep_delay": 17.16, "dep_delay_diff": 11.24, "rank": 1}	
+{"origin": "ABE", "carrier": "OH", "num_flights": 576, "avg_dep_delay": 20.18, "avg_arr_delay": 18.51, "cancellation_rate": 0.0156, "airport_avg_dep_delay": 17.16, "dep_delay_diff": 3.02, "rank": 2}	
+{"origin": "ABE", "carrier": "9E", "num_flights": 490, "avg_dep_delay": 15.0, "avg_arr_delay": 15.3, "cancellation_rate": 0.0061, "airport_avg_dep_delay": 17.16, "dep_delay_diff": -2.15, "rank": 3}	
+{"origin": "ABE", "carrier": "G4", "num_flights": 941, "avg_dep_delay": 14.66, "avg_arr_delay": 14.59, "cancellation_rate": 0.0128, "airport_avg_dep_delay": 17.16, "dep_delay_diff": -2.5, "rank": 4}	
+{"origin": "ABI", "carrier": "MQ", "num_flights": 900, "avg_dep_delay": 10.08, "avg_arr_delay": 10.99, "cancellation_rate": 0.0089, "airport_avg_dep_delay": 10.08, "dep_delay_diff": 0.0, "rank": 1}	
+{"origin": "ABQ", "carrier": "B6", "num_flights": 115, "avg_dep_delay": 53.28, "avg_arr_delay": 50.13, "cancellation_rate": 0.0261, "airport_avg_dep_delay": 13.12, "dep_delay_diff": 40.16, "rank": 1}	
+{"origin": "ABQ", "carrier": "AA", "num_flights": 1504, "avg_dep_delay": 25.09, "avg_arr_delay": 24.96, "cancellation_rate": 0.0206, "airport_avg_dep_delay": 13.12, "dep_delay_diff": 11.97, "rank": 2}	
+{"origin": "ABQ", "carrier": "AS", "num_flights": 204, "avg_dep_delay": 16.03, "avg_arr_delay": 16.48, "cancellation_rate": 0.0098, "airport_avg_dep_delay": 13.12, "dep_delay_diff": 2.91, "rank": 3}	
+{"origin": "ABQ", "carrier": "NK", "num_flights": 258, "avg_dep_delay": 14.48, "avg_arr_delay": 14.51, "cancellation_rate": 0.0039, "airport_avg_dep_delay": 13.12, "dep_delay_diff": 1.37, "rank": 4}	
+{"origin": "ABQ", "carrier": "WN", "num_flights": 5894, "avg_dep_delay": 12.71, "avg_arr_delay": 11.57, "cancellation_rate": 0.0048, "airport_avg_dep_delay": 13.12, "dep_delay_diff": -0.41, "rank": 5}	
+
+
+======================================================================
+Execution timestamp: 2026-06-05 03:20:12.247333
+Execution time: 66.50 seconds
+
+HADOOP METRICS
+--------------------------------------------------------------------------------
+map_time: 50384
+reduce_time: 27336
+map_tasks: 2
+reduce_tasks: 1
+
+TOP 10 RESULTS
+----------------------------------------------------------------------
+{"origin": "ABE", "carrier": "9E", "num_flights": 1017, "avg_dep_delay": NaN, "avg_arr_delay": NaN, "cancellation_rate": 0.0138, "airport_avg_dep_delay": NaN, "dep_delay_diff": NaN, "rank": 1}	
+{"origin": "ABE", "carrier": "G4", "num_flights": 1839, "avg_dep_delay": NaN, "avg_arr_delay": NaN, "cancellation_rate": 0.0163, "airport_avg_dep_delay": NaN, "dep_delay_diff": NaN, "rank": 2}	
+{"origin": "ABE", "carrier": "OH", "num_flights": 1166, "avg_dep_delay": NaN, "avg_arr_delay": NaN, "cancellation_rate": 0.0129, "airport_avg_dep_delay": NaN, "dep_delay_diff": NaN, "rank": 3}	
+{"origin": "ABE", "carrier": "OO", "num_flights": 315, "avg_dep_delay": NaN, "avg_arr_delay": NaN, "cancellation_rate": 0.0381, "airport_avg_dep_delay": NaN, "dep_delay_diff": NaN, "rank": 4}	
+{"origin": "ABI", "carrier": "MQ", "num_flights": 1757, "avg_dep_delay": NaN, "avg_arr_delay": NaN, "cancellation_rate": 0.0085, "airport_avg_dep_delay": NaN, "dep_delay_diff": NaN, "rank": 1}	
+{"origin": "ABQ", "carrier": "AA", "num_flights": 3016, "avg_dep_delay": NaN, "avg_arr_delay": NaN, "cancellation_rate": 0.0209, "airport_avg_dep_delay": NaN, "dep_delay_diff": NaN, "rank": 1}	
+{"origin": "ABQ", "carrier": "AS", "num_flights": 423, "avg_dep_delay": NaN, "avg_arr_delay": NaN, "cancellation_rate": 0.0095, "airport_avg_dep_delay": NaN, "dep_delay_diff": NaN, "rank": 2}	
+{"origin": "ABQ", "carrier": "B6", "num_flights": 255, "avg_dep_delay": NaN, "avg_arr_delay": NaN, "cancellation_rate": 0.0196, "airport_avg_dep_delay": NaN, "dep_delay_diff": NaN, "rank": 3}	
+{"origin": "ABQ", "carrier": "DL", "num_flights": 1547, "avg_dep_delay": NaN, "avg_arr_delay": NaN, "cancellation_rate": 0.009, "airport_avg_dep_delay": NaN, "dep_delay_diff": NaN, "rank": 4}	
+{"origin": "ABQ", "carrier": "MQ", "num_flights": 907, "avg_dep_delay": NaN, "avg_arr_delay": NaN, "cancellation_rate": 0.0066, "airport_avg_dep_delay": NaN, "dep_delay_diff": NaN, "rank": 5}	
+
+
+======================================================================
+Execution timestamp: 2026-06-05 03:22:00.050414
+Execution time: 102.14 seconds
+
+HADOOP METRICS
+--------------------------------------------------------------------------------
+map_time: 84425
+reduce_time: 45434
+map_tasks: 2
+reduce_tasks: 1
+
+TOP 10 RESULTS
+----------------------------------------------------------------------
+{"origin": "ABE", "carrier": "OO", "num_flights": 630, "avg_dep_delay": 35.17, "avg_arr_delay": 33.67, "cancellation_rate": 0.0381, "airport_avg_dep_delay": 17.85, "dep_delay_diff": 17.32, "rank": 1}	
+{"origin": "ABE", "carrier": "OH", "num_flights": 2332, "avg_dep_delay": 21.49, "avg_arr_delay": 20.18, "cancellation_rate": 0.0129, "airport_avg_dep_delay": 17.85, "dep_delay_diff": 3.64, "rank": 2}	
+{"origin": "ABE", "carrier": "G4", "num_flights": 3678, "avg_dep_delay": 15.02, "avg_arr_delay": 14.67, "cancellation_rate": 0.0163, "airport_avg_dep_delay": 17.85, "dep_delay_diff": -2.83, "rank": 3}	
+{"origin": "ABE", "carrier": "9E", "num_flights": 2034, "avg_dep_delay": 13.43, "avg_arr_delay": 13.58, "cancellation_rate": 0.0138, "airport_avg_dep_delay": 17.85, "dep_delay_diff": -4.42, "rank": 4}	
+{"origin": "ABI", "carrier": "MQ", "num_flights": 3514, "avg_dep_delay": 12.17, "avg_arr_delay": 12.85, "cancellation_rate": 0.0085, "airport_avg_dep_delay": 12.17, "dep_delay_diff": 0.0, "rank": 1}	
+{"origin": "ABQ", "carrier": "B6", "num_flights": 510, "avg_dep_delay": 51.16, "avg_arr_delay": 50.23, "cancellation_rate": 0.0196, "airport_avg_dep_delay": 12.77, "dep_delay_diff": 38.4, "rank": 1}	
+{"origin": "ABQ", "carrier": "AA", "num_flights": 6032, "avg_dep_delay": 23.87, "avg_arr_delay": 24.52, "cancellation_rate": 0.0209, "airport_avg_dep_delay": 12.77, "dep_delay_diff": 11.1, "rank": 2}	
+{"origin": "ABQ", "carrier": "NK", "num_flights": 1050, "avg_dep_delay": 14.2, "avg_arr_delay": 14.28, "cancellation_rate": 0.0114, "airport_avg_dep_delay": 12.77, "dep_delay_diff": 1.44, "rank": 3}	
+{"origin": "ABQ", "carrier": "AS", "num_flights": 846, "avg_dep_delay": 12.95, "avg_arr_delay": 13.03, "cancellation_rate": 0.0095, "airport_avg_dep_delay": 12.77, "dep_delay_diff": 0.18, "rank": 4}	
+{"origin": "ABQ", "carrier": "WN", "num_flights": 23220, "avg_dep_delay": 12.2, "avg_arr_delay": 11.01, "cancellation_rate": 0.0053, "airport_avg_dep_delay": 12.77, "dep_delay_diff": -0.57, "rank": 5}	
+
+
+======================================================================
+Execution timestamp: 2026-06-05 03:24:49.336358
+Execution time: 164.10 seconds
+
+HADOOP METRICS
+--------------------------------------------------------------------------------
+map_time: 255314
+reduce_time: 83220
+map_tasks: 4
+reduce_tasks: 1
+
+TOP 10 RESULTS
+----------------------------------------------------------------------
+{"origin": "ABE", "carrier": "OO", "num_flights": 1260, "avg_dep_delay": 35.17, "avg_arr_delay": 33.67, "cancellation_rate": 0.0381, "airport_avg_dep_delay": 17.85, "dep_delay_diff": 17.32, "rank": 1}	
+{"origin": "ABE", "carrier": "OH", "num_flights": 4664, "avg_dep_delay": 21.49, "avg_arr_delay": 20.18, "cancellation_rate": 0.0129, "airport_avg_dep_delay": 17.85, "dep_delay_diff": 3.64, "rank": 2}	
+{"origin": "ABE", "carrier": "G4", "num_flights": 7356, "avg_dep_delay": 15.02, "avg_arr_delay": 14.67, "cancellation_rate": 0.0163, "airport_avg_dep_delay": 17.85, "dep_delay_diff": -2.83, "rank": 3}	
+{"origin": "ABE", "carrier": "9E", "num_flights": 4068, "avg_dep_delay": 13.43, "avg_arr_delay": 13.58, "cancellation_rate": 0.0138, "airport_avg_dep_delay": 17.85, "dep_delay_diff": -4.42, "rank": 4}	
+{"origin": "ABI", "carrier": "MQ", "num_flights": 7028, "avg_dep_delay": 12.17, "avg_arr_delay": 12.85, "cancellation_rate": 0.0085, "airport_avg_dep_delay": 12.17, "dep_delay_diff": 0.0, "rank": 1}	
+{"origin": "ABQ", "carrier": "B6", "num_flights": 1020, "avg_dep_delay": 51.16, "avg_arr_delay": 50.23, "cancellation_rate": 0.0196, "airport_avg_dep_delay": 12.77, "dep_delay_diff": 38.4, "rank": 1}	
+{"origin": "ABQ", "carrier": "AA", "num_flights": 12064, "avg_dep_delay": 23.87, "avg_arr_delay": 24.52, "cancellation_rate": 0.0209, "airport_avg_dep_delay": 12.77, "dep_delay_diff": 11.1, "rank": 2}	
+{"origin": "ABQ", "carrier": "NK", "num_flights": 2100, "avg_dep_delay": 14.2, "avg_arr_delay": 14.28, "cancellation_rate": 0.0114, "airport_avg_dep_delay": 12.77, "dep_delay_diff": 1.44, "rank": 3}	
+{"origin": "ABQ", "carrier": "AS", "num_flights": 1692, "avg_dep_delay": 12.95, "avg_arr_delay": 13.03, "cancellation_rate": 0.0095, "airport_avg_dep_delay": 12.77, "dep_delay_diff": 0.18, "rank": 4}	
+{"origin": "ABQ", "carrier": "WN", "num_flights": 46440, "avg_dep_delay": 12.2, "avg_arr_delay": 11.01, "cancellation_rate": 0.0053, "airport_avg_dep_delay": 12.77, "dep_delay_diff": -0.57, "rank": 5}	
+

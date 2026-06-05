@@ -17,7 +17,7 @@ for line in sys.stdin:
 
         carrier = row[2]
         origin = row[4]
-        destination = row[5]
+        # destination = row[5]
         month = row[1]
 
         dep_delay = float(row[6]) if row[6] else 0
@@ -27,7 +27,7 @@ for line in sys.stdin:
         dep_delay = max(dep_delay, 0)
         arr_delay = max(arr_delay, 0)
 
-        key = f"{carrier}|{origin}|{destination}"
+        key = f"{carrier}|{origin}"
         value = f"1,{dep_delay},{arr_delay},{cancelled},{month}"
 
         print(f"{key}\t{value}")
